@@ -1,21 +1,11 @@
-import React, {ImgHTMLAttributes, useState} from 'react';
+import React, {useState} from 'react';
 import './App.css';
-import {Box, Card, CardContent, Divider, ImageList, ImageListItem, Paper, Stack, Typography} from "@mui/material";
-import {
-    EmailRounded, HomeWorkRounded,
-    PhoneAndroid,
-    PhoneInTalkRounded,
-    PhoneIphoneRounded,
-    ViewCarouselRounded
-} from "@mui/icons-material";
-import Carousel from "react-material-ui-carousel";
-import {MoguLogo} from "./components/MoguLogo";
-import {WelcomeScreen} from "./WelcomeScreen";
-import {NataCube} from "./components/NataCube";
+import {Box, Divider, Stack, Typography} from "@mui/material";
+import {EmailRounded, HomeWorkRounded, PhoneInTalkRounded} from "@mui/icons-material";
 import {MoguCard} from "./components/MoguCard";
-import {useEffectOnce, useScreen, useWindowSize} from "usehooks-ts";
 import {MoguCarousele} from "./components/MoguCarousele";
-import DeleteIcon from '@mui/icons-material/Delete';
+import {MoguMenuHeader} from "./components/MoguMenuHeader";
+import {useInterval} from "react-material-ui-carousel/dist/components/util";
 
 export type MoguImageData = {
     imgSrc: string
@@ -38,11 +28,34 @@ export const imageData: Array<MoguImageData> = [
 ]
 
 function App() {
+    const [currentBottleIdx, setCurrentBottleIdx] = useState(0)
+
+    useInterval(() => {
+        setCurrentBottleIdx((currentBottleIdx + 1) % imageData.length)
+    }, 5000)
+
     return (
     <div className="App">
-        <Stack alignItems={"center"} spacing={2}>
-            {/*<MoguCarousele items={imageData} />*/}
-            <WelcomeScreen />
+        <Stack
+            alignItems={"center"}
+            spacing={2}
+            sx={{
+                width: "100%",
+                background: `linear-gradient(#bcf4ff, white)`
+            }}
+        >
+            <MoguMenuHeader />
+            <Stack direction={"row"} sx={{padding: "64px"}} justifyContent={"space-between"}>
+                <MoguCarousele currentIdx={currentBottleIdx} items={imageData} />
+                <MoguCard
+                    title={"WGRYŹ SIĘ W SOK!"}
+                    sx={{width: 500}}
+                >
+                    <Typography paragraph={true}>
+                        Mogu Mogu to egzotyczny napój, który zdobywa serca smakoszy na całym świecie. Ten orzeźwiający napój pochodzi z Tajlandii i zachwyca unikalnym połączeniem smaków. Mogu Mogu to nie tylko pyszne orzeźwienie, ale także zdrowy wybór, gdyż nie zawiera sztucznych barwników ani konserwantów. Wzbogacony naturalnymi owocami i żelkowymi kawałkami, ten napój to prawdziwa uczta dla podniebienia. Dostępny w wielu smakach, takich jak mango, truskawka czy kokos, Mogu Mogu to doskonały wybór na gorące dni. Spróbuj dziś i poczuj orzeźwiającą moc Mogu Mogu!
+                    </Typography>
+                </MoguCard>
+            </Stack>
             <Stack alignItems={"center"} direction={"row"} flexWrap={"wrap"}>
                 {imageData.map((item) => (
                     <Box

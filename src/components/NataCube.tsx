@@ -1,8 +1,5 @@
-import { Box } from "@mui/material";
-import {animated, interpolate, to, useSpring} from "@react-spring/web";
-import {FC, useEffect, useState} from "react";
-import {useInterval} from "react-material-ui-carousel/dist/components/util";
-import {useEffectOnce} from "usehooks-ts";
+import {animated, to, useSpring} from "@react-spring/web";
+import {FC, useEffect} from "react";
 
 const nataCubesResourceUrl = (idx: number) => `/img/nata-cube-${idx}.webp`
 

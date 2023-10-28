@@ -1,5 +1,5 @@
-import {Box, Card, CardContent, CardHeader, CardProps, Typography} from "@mui/material";
-import {FC, ReactNode} from "react";
+import {Box, Card, CardContent, CardHeader, CardProps} from "@mui/material";
+import {FC} from "react";
 
 interface MoguCardProps extends CardProps {
     title: string
@@ -8,6 +8,7 @@ interface MoguCardProps extends CardProps {
 const MoguCard: FC<MoguCardProps> = (props) => {
     return (<Box sx={{position: "relative"}}>
         <Card
+            elevation={3}
             sx={{
                 position: "relative",
                 borderRadius: '16px',

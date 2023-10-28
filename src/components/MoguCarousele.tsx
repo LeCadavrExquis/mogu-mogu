@@ -1,11 +1,12 @@
 import React, {FC, useCallback, useRef, useState} from "react";
-import {Box, Button, Card, CardContent, Paper, Typography} from "@mui/material";
-import {animated, to, useSpring} from "@react-spring/web";
-import {useInterval} from "react-material-ui-carousel/dist/components/util";
+import {Box, Paper} from "@mui/material";
+import {useSpring} from "@react-spring/web";
 import {imageData, MoguImageData} from "../App";
-import {useTimeout} from "usehooks-ts";
 import Carousel from "react-material-ui-carousel";
 import {NataCube} from "./NataCube";
+import {useTimeout} from "usehooks-ts";
+// @ts-ignore
+import {ReactComponent as CloudsSvg} from "../resources/clouds.svg";
 
 interface MoguCarouseleProps {
     items: MoguImageData[]
@@ -26,45 +27,90 @@ export const MoguCarousele: FC<MoguCarouseleProps> = (props) => {
     const [backgroundColor, setBackgroundColor] = useState(imageData[0].color)
 
     const [cubes, setCubes] = useState([
-        {x: Math.random() * window.innerWidth, y: Math.random() * window.innerHeight},
-        {x: Math.random() * window.innerWidth, y: Math.random() * window.innerHeight},
-        {x: Math.random() * window.innerWidth, y: Math.random() * window.innerHeight},
-        {x: Math.random() * window.innerWidth, y: Math.random() * window.innerHeight},
-        {x: Math.random() * window.innerWidth, y: Math.random() * window.innerHeight},
-        {x: Math.random() * window.innerWidth, y: Math.random() * window.innerHeight},
-        {x: Math.random() * window.innerWidth, y: Math.random() * window.innerHeight},
-        {x: Math.random() * window.innerWidth, y: Math.random() * window.innerHeight},
-        {x: Math.random() * window.innerWidth, y: Math.random() * window.innerHeight},
-        {x: Math.random() * window.innerWidth, y: Math.random() * window.innerHeight},
-        {x: Math.random() * window.innerWidth, y: Math.random() * window.innerHeight},
-        {x: Math.random() * window.innerWidth, y: Math.random() * window.innerHeight},
-        {x: Math.random() * window.innerWidth, y: Math.random() * window.innerHeight},
-        {x: Math.random() * window.innerWidth, y: Math.random() * window.innerHeight},
-        {x: Math.random() * window.innerWidth, y: Math.random() * window.innerHeight},
-        {x: Math.random() * window.innerWidth, y: Math.random() * window.innerHeight},
-        {x: Math.random() * window.innerWidth, y: Math.random() * window.innerHeight},
-        {x: Math.random() * window.innerWidth, y: Math.random() * window.innerHeight},
-        {x: Math.random() * window.innerWidth, y: Math.random() * window.innerHeight},
-        {x: Math.random() * window.innerWidth, y: Math.random() * window.innerHeight},
-        {x: Math.random() * window.innerWidth, y: Math.random() * window.innerHeight},
-        {x: Math.random() * window.innerWidth, y: Math.random() * window.innerHeight},
-        {x: Math.random() * window.innerWidth, y: Math.random() * window.innerHeight},
-        {x: Math.random() * window.innerWidth, y: Math.random() * window.innerHeight},
-        {x: Math.random() * window.innerWidth, y: Math.random() * window.innerHeight},
-        {x: Math.random() * window.innerWidth, y: Math.random() * window.innerHeight},
-        {x: Math.random() * window.innerWidth, y: Math.random() * window.innerHeight},
-        {x: Math.random() * window.innerWidth, y: Math.random() * window.innerHeight},
-        {x: Math.random() * window.innerWidth, y: Math.random() * window.innerHeight},
-        {x: Math.random() * window.innerWidth, y: Math.random() * window.innerHeight},
-        {x: Math.random() * window.innerWidth, y: Math.random() * window.innerHeight},
-        {x: Math.random() * window.innerWidth, y: Math.random() * window.innerHeight},
-        {x: Math.random() * window.innerWidth, y: Math.random() * window.innerHeight},
-        {x: Math.random() * window.innerWidth, y: Math.random() * window.innerHeight},
-        {x: Math.random() * window.innerWidth, y: Math.random() * window.innerHeight},
-        {x: Math.random() * window.innerWidth, y: Math.random() * window.innerHeight},
-        {x: Math.random() * window.innerWidth, y: Math.random() * window.innerHeight},
-        {x: Math.random() * window.innerWidth, y: Math.random() * window.innerHeight},
+        {x: -1000, y: -1000},
+        {x: -1000, y: -1000},
+        {x: -1000, y: -1000},
+        {x: -1000, y: -1000},
+        {x: -1000, y: -1000},
+        {x: -1000, y: -1000},
+        {x: -1000, y: -1000},
+        {x: -1000, y: -1000},
+        {x: -1000, y: -1000},
+        {x: -1000, y: -1000},
+        {x: -1000, y: -1000},
+        {x: -1000, y: -1000},
+        {x: -1000, y: -1000},
+        {x: -1000, y: -1000},
+        {x: -1000, y: -1000},
+        {x: -1000, y: -1000},
+        {x: -1000, y: -1000},
+        {x: -1000, y: -1000},
+        {x: -1000, y: -1000},
+        {x: -1000, y: -1000},
+        {x: -1000, y: -1000},
+        {x: -1000, y: -1000},
+        {x: -1000, y: -1000},
+        {x: -1000, y: -1000},
+        {x: -1000, y: -1000},
+        {x: -1000, y: -1000},
+        {x: -1000, y: -1000},
+        {x: -1000, y: -1000},
+        {x: -1000, y: -1000},
+        {x: -1000, y: -1000},
+        {x: -1000, y: -1000},
+        {x: -1000, y: -1000},
+        {x: -1000, y: -1000},
+        {x: -1000, y: -1000},
+        {x: -1000, y: -1000},
+        {x: -1000, y: -1000},
+        {x: -1000, y: -1000},
+        {x: -1000, y: -1000},
     ])
+
+    useTimeout(() => {
+        setCubes([
+            {x: Math.random() * ref.current!.offsetWidth, y: Math.random() * ref.current!.offsetHeight},
+            {x: Math.random() * ref.current!.offsetWidth, y: Math.random() * ref.current!.offsetHeight},
+            {x: Math.random() * ref.current!.offsetWidth, y: Math.random() * ref.current!.offsetHeight},
+            {x: Math.random() * ref.current!.offsetWidth, y: Math.random() * ref.current!.offsetHeight},
+            {x: Math.random() * ref.current!.offsetWidth, y: Math.random() * ref.current!.offsetHeight},
+            {x: Math.random() * ref.current!.offsetWidth, y: Math.random() * ref.current!.offsetHeight},
+            {x: Math.random() * ref.current!.offsetWidth, y: Math.random() * ref.current!.offsetHeight},
+            {x: Math.random() * ref.current!.offsetWidth, y: Math.random() * ref.current!.offsetHeight},
+            {x: Math.random() * ref.current!.offsetWidth, y: Math.random() * ref.current!.offsetHeight},
+            {x: Math.random() * ref.current!.offsetWidth, y: Math.random() * ref.current!.offsetHeight},
+            {x: Math.random() * ref.current!.offsetWidth, y: Math.random() * ref.current!.offsetHeight},
+            {x: Math.random() * ref.current!.offsetWidth, y: Math.random() * ref.current!.offsetHeight},
+            {x: Math.random() * ref.current!.offsetWidth, y: Math.random() * ref.current!.offsetHeight},
+            {x: Math.random() * ref.current!.offsetWidth, y: Math.random() * ref.current!.offsetHeight},
+            {x: Math.random() * ref.current!.offsetWidth, y: Math.random() * ref.current!.offsetHeight},
+            {x: Math.random() * ref.current!.offsetWidth, y: Math.random() * ref.current!.offsetHeight},
+            {x: Math.random() * ref.current!.offsetWidth, y: Math.random() * ref.current!.offsetHeight},
+            {x: Math.random() * ref.current!.offsetWidth, y: Math.random() * ref.current!.offsetHeight},
+            {x: Math.random() * ref.current!.offsetWidth, y: Math.random() * ref.current!.offsetHeight},
+            {x: Math.random() * ref.current!.offsetWidth, y: Math.random() * ref.current!.offsetHeight},
+            {x: Math.random() * ref.current!.offsetWidth, y: Math.random() * ref.current!.offsetHeight},
+            {x: Math.random() * ref.current!.offsetWidth, y: Math.random() * ref.current!.offsetHeight},
+            {x: Math.random() * ref.current!.offsetWidth, y: Math.random() * ref.current!.offsetHeight},
+            {x: Math.random() * ref.current!.offsetWidth, y: Math.random() * ref.current!.offsetHeight},
+            {x: Math.random() * ref.current!.offsetWidth, y: Math.random() * ref.current!.offsetHeight},
+            {x: Math.random() * ref.current!.offsetWidth, y: Math.random() * ref.current!.offsetHeight},
+            {x: Math.random() * ref.current!.offsetWidth, y: Math.random() * ref.current!.offsetHeight},
+            {x: Math.random() * ref.current!.offsetWidth, y: Math.random() * ref.current!.offsetHeight},
+            {x: Math.random() * ref.current!.offsetWidth, y: Math.random() * ref.current!.offsetHeight},
+            {x: Math.random() * ref.current!.offsetWidth, y: Math.random() * ref.current!.offsetHeight},
+            {x: Math.random() * ref.current!.offsetWidth, y: Math.random() * ref.current!.offsetHeight},
+            {x: Math.random() * ref.current!.offsetWidth, y: Math.random() * ref.current!.offsetHeight},
+            {x: Math.random() * ref.current!.offsetWidth, y: Math.random() * ref.current!.offsetHeight},
+            {x: Math.random() * ref.current!.offsetWidth, y: Math.random() * ref.current!.offsetHeight},
+            {x: Math.random() * ref.current!.offsetWidth, y: Math.random() * ref.current!.offsetHeight},
+            {x: Math.random() * ref.current!.offsetWidth, y: Math.random() * ref.current!.offsetHeight},
+            {x: Math.random() * ref.current!.offsetWidth, y: Math.random() * ref.current!.offsetHeight},
+            {x: Math.random() * ref.current!.offsetWidth, y: Math.random() * ref.current!.offsetHeight},
+            {x: Math.random() * ref.current!.offsetWidth, y: Math.random() * ref.current!.offsetHeight},
+            {x: Math.random() * ref.current!.offsetWidth, y: Math.random() * ref.current!.offsetHeight},
+        ])
+    }, 100)
 
     // useInterval(() => {
     //     if (stateCounter % 5 === 0) {
@@ -78,21 +124,18 @@ export const MoguCarousele: FC<MoguCarouseleProps> = (props) => {
     //
     //     }
     //     setStateCounter(stateCounter + 1)
-    // }, 1000)
-
-    const getCurrentColor = useCallback(() => props.items[(props.currentIdx + 1) % props.items.length].color,
-        [props.currentIdx, props.items]
-    )
+    // }, 0)
 
     return <Box ref={ref}
-                width={"70%"}
+                width={1000}
                 sx={{
                     position: "relative",
                     background: `radial-gradient(closest-side,${backgroundColor},#FFFFFF00)`,
-                    animation: "fadein"
+                    animation: "fadein",
                 }}>
         {
             cubes
+                .filter(pos => pos.x > 0)
                 .map((pos, idx) =>
                     <NataCube
                         key={idx}
@@ -103,8 +146,12 @@ export const MoguCarousele: FC<MoguCarouseleProps> = (props) => {
         }
         <Carousel
             index={props.currentIdx}
-            onChange={() => {
-                setBackgroundColor(getCurrentColor())
+            indicators={false}
+            navButtonsAlwaysInvisible={true}
+            duration={1000}
+            swipe={false}
+            onChange={(now, previous) => {
+                setBackgroundColor(props.items[now!].color)
                 setCubes([
                     {x: Math.random() * ref.current!.offsetWidth, y: Math.random() * ref.current!.offsetHeight},
                     {x: Math.random() * ref.current!.offsetWidth, y: Math.random() * ref.current!.offsetHeight},
@@ -150,24 +197,9 @@ export const MoguCarousele: FC<MoguCarouseleProps> = (props) => {
             }}
         >
             {
-                imageData.map( (item, i) => <CarouselItem key={i} item={item} /> )
+                imageData.map((item, i) => <CarouselItem key={i} item={item} /> )
             }
         </Carousel>
-
-        {/*<animated.div*/}
-        {/*    style={{*/}
-        {/*        transform: to([bottlePos.pos], ([x, y]) => `translate3d(${x}px,${y}px,0)`)*/}
-        {/*    }}*/}
-        {/*>*/}
-        {/*    <img*/}
-        {/*        srcSet={`${props.items[0].imgSrc}?w=270&h=555&fit=fill&auto=format&dpr=3 3x`}*/}
-        {/*        src={`${props.items[0].imgSrc}?w=270&h=555&fit=fill&auto=format`}*/}
-        {/*        alt={props.items[0].title}*/}
-        {/*        width={270}*/}
-        {/*        height={555}*/}
-        {/*        loading="lazy"*/}
-        {/*    />*/}
-        {/*</animated.div>*/}
     </Box>
 }
 
