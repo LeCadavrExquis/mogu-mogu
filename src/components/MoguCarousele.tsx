@@ -1,4 +1,4 @@
-import React, {FC, useCallback, useRef, useState} from "react";
+import React, {FC, useCallback, useEffect, useRef, useState} from "react";
 import {Box, Paper} from "@mui/material";
 import {useSpring} from "@react-spring/web";
 import {imageData, MoguImageData} from "../App";
@@ -126,6 +126,52 @@ export const MoguCarousele: FC<MoguCarouseleProps> = (props) => {
     //     setStateCounter(stateCounter + 1)
     // }, 0)
 
+    useEffect(() => {
+        setBackgroundColor(props.items[props.currentIdx].color)
+        setCubes([
+            {x: Math.random() * ref.current!.offsetWidth, y: Math.random() * ref.current!.offsetHeight},
+            {x: Math.random() * ref.current!.offsetWidth, y: Math.random() * ref.current!.offsetHeight},
+            {x: Math.random() * ref.current!.offsetWidth, y: Math.random() * ref.current!.offsetHeight},
+            {x: Math.random() * ref.current!.offsetWidth, y: Math.random() * ref.current!.offsetHeight},
+            {x: Math.random() * ref.current!.offsetWidth, y: Math.random() * ref.current!.offsetHeight},
+            {x: Math.random() * ref.current!.offsetWidth, y: Math.random() * ref.current!.offsetHeight},
+            {x: Math.random() * ref.current!.offsetWidth, y: Math.random() * ref.current!.offsetHeight},
+            {x: Math.random() * ref.current!.offsetWidth, y: Math.random() * ref.current!.offsetHeight},
+            {x: Math.random() * ref.current!.offsetWidth, y: Math.random() * ref.current!.offsetHeight},
+            {x: Math.random() * ref.current!.offsetWidth, y: Math.random() * ref.current!.offsetHeight},
+            {x: Math.random() * ref.current!.offsetWidth, y: Math.random() * ref.current!.offsetHeight},
+            {x: Math.random() * ref.current!.offsetWidth, y: Math.random() * ref.current!.offsetHeight},
+            {x: Math.random() * ref.current!.offsetWidth, y: Math.random() * ref.current!.offsetHeight},
+            {x: Math.random() * ref.current!.offsetWidth, y: Math.random() * ref.current!.offsetHeight},
+            {x: Math.random() * ref.current!.offsetWidth, y: Math.random() * ref.current!.offsetHeight},
+            {x: Math.random() * ref.current!.offsetWidth, y: Math.random() * ref.current!.offsetHeight},
+            {x: Math.random() * ref.current!.offsetWidth, y: Math.random() * ref.current!.offsetHeight},
+            {x: Math.random() * ref.current!.offsetWidth, y: Math.random() * ref.current!.offsetHeight},
+            {x: Math.random() * ref.current!.offsetWidth, y: Math.random() * ref.current!.offsetHeight},
+            {x: Math.random() * ref.current!.offsetWidth, y: Math.random() * ref.current!.offsetHeight},
+            {x: Math.random() * ref.current!.offsetWidth, y: Math.random() * ref.current!.offsetHeight},
+            {x: Math.random() * ref.current!.offsetWidth, y: Math.random() * ref.current!.offsetHeight},
+            {x: Math.random() * ref.current!.offsetWidth, y: Math.random() * ref.current!.offsetHeight},
+            {x: Math.random() * ref.current!.offsetWidth, y: Math.random() * ref.current!.offsetHeight},
+            {x: Math.random() * ref.current!.offsetWidth, y: Math.random() * ref.current!.offsetHeight},
+            {x: Math.random() * ref.current!.offsetWidth, y: Math.random() * ref.current!.offsetHeight},
+            {x: Math.random() * ref.current!.offsetWidth, y: Math.random() * ref.current!.offsetHeight},
+            {x: Math.random() * ref.current!.offsetWidth, y: Math.random() * ref.current!.offsetHeight},
+            {x: Math.random() * ref.current!.offsetWidth, y: Math.random() * ref.current!.offsetHeight},
+            {x: Math.random() * ref.current!.offsetWidth, y: Math.random() * ref.current!.offsetHeight},
+            {x: Math.random() * ref.current!.offsetWidth, y: Math.random() * ref.current!.offsetHeight},
+            {x: Math.random() * ref.current!.offsetWidth, y: Math.random() * ref.current!.offsetHeight},
+            {x: Math.random() * ref.current!.offsetWidth, y: Math.random() * ref.current!.offsetHeight},
+            {x: Math.random() * ref.current!.offsetWidth, y: Math.random() * ref.current!.offsetHeight},
+            {x: Math.random() * ref.current!.offsetWidth, y: Math.random() * ref.current!.offsetHeight},
+            {x: Math.random() * ref.current!.offsetWidth, y: Math.random() * ref.current!.offsetHeight},
+            {x: Math.random() * ref.current!.offsetWidth, y: Math.random() * ref.current!.offsetHeight},
+            {x: Math.random() * ref.current!.offsetWidth, y: Math.random() * ref.current!.offsetHeight},
+            {x: Math.random() * ref.current!.offsetWidth, y: Math.random() * ref.current!.offsetHeight},
+            {x: Math.random() * ref.current!.offsetWidth, y: Math.random() * ref.current!.offsetHeight},
+        ])
+    }, [props.currentIdx, props.items]);
+
     return <Box ref={ref}
                 width={1000}
                 sx={{
@@ -148,53 +194,8 @@ export const MoguCarousele: FC<MoguCarouseleProps> = (props) => {
             index={props.currentIdx}
             indicators={false}
             navButtonsAlwaysInvisible={true}
-            duration={1000}
+            autoPlay={false}
             swipe={false}
-            onChange={(now, previous) => {
-                setBackgroundColor(props.items[now!].color)
-                setCubes([
-                    {x: Math.random() * ref.current!.offsetWidth, y: Math.random() * ref.current!.offsetHeight},
-                    {x: Math.random() * ref.current!.offsetWidth, y: Math.random() * ref.current!.offsetHeight},
-                    {x: Math.random() * ref.current!.offsetWidth, y: Math.random() * ref.current!.offsetHeight},
-                    {x: Math.random() * ref.current!.offsetWidth, y: Math.random() * ref.current!.offsetHeight},
-                    {x: Math.random() * ref.current!.offsetWidth, y: Math.random() * ref.current!.offsetHeight},
-                    {x: Math.random() * ref.current!.offsetWidth, y: Math.random() * ref.current!.offsetHeight},
-                    {x: Math.random() * ref.current!.offsetWidth, y: Math.random() * ref.current!.offsetHeight},
-                    {x: Math.random() * ref.current!.offsetWidth, y: Math.random() * ref.current!.offsetHeight},
-                    {x: Math.random() * ref.current!.offsetWidth, y: Math.random() * ref.current!.offsetHeight},
-                    {x: Math.random() * ref.current!.offsetWidth, y: Math.random() * ref.current!.offsetHeight},
-                    {x: Math.random() * ref.current!.offsetWidth, y: Math.random() * ref.current!.offsetHeight},
-                    {x: Math.random() * ref.current!.offsetWidth, y: Math.random() * ref.current!.offsetHeight},
-                    {x: Math.random() * ref.current!.offsetWidth, y: Math.random() * ref.current!.offsetHeight},
-                    {x: Math.random() * ref.current!.offsetWidth, y: Math.random() * ref.current!.offsetHeight},
-                    {x: Math.random() * ref.current!.offsetWidth, y: Math.random() * ref.current!.offsetHeight},
-                    {x: Math.random() * ref.current!.offsetWidth, y: Math.random() * ref.current!.offsetHeight},
-                    {x: Math.random() * ref.current!.offsetWidth, y: Math.random() * ref.current!.offsetHeight},
-                    {x: Math.random() * ref.current!.offsetWidth, y: Math.random() * ref.current!.offsetHeight},
-                    {x: Math.random() * ref.current!.offsetWidth, y: Math.random() * ref.current!.offsetHeight},
-                    {x: Math.random() * ref.current!.offsetWidth, y: Math.random() * ref.current!.offsetHeight},
-                    {x: Math.random() * ref.current!.offsetWidth, y: Math.random() * ref.current!.offsetHeight},
-                    {x: Math.random() * ref.current!.offsetWidth, y: Math.random() * ref.current!.offsetHeight},
-                    {x: Math.random() * ref.current!.offsetWidth, y: Math.random() * ref.current!.offsetHeight},
-                    {x: Math.random() * ref.current!.offsetWidth, y: Math.random() * ref.current!.offsetHeight},
-                    {x: Math.random() * ref.current!.offsetWidth, y: Math.random() * ref.current!.offsetHeight},
-                    {x: Math.random() * ref.current!.offsetWidth, y: Math.random() * ref.current!.offsetHeight},
-                    {x: Math.random() * ref.current!.offsetWidth, y: Math.random() * ref.current!.offsetHeight},
-                    {x: Math.random() * ref.current!.offsetWidth, y: Math.random() * ref.current!.offsetHeight},
-                    {x: Math.random() * ref.current!.offsetWidth, y: Math.random() * ref.current!.offsetHeight},
-                    {x: Math.random() * ref.current!.offsetWidth, y: Math.random() * ref.current!.offsetHeight},
-                    {x: Math.random() * ref.current!.offsetWidth, y: Math.random() * ref.current!.offsetHeight},
-                    {x: Math.random() * ref.current!.offsetWidth, y: Math.random() * ref.current!.offsetHeight},
-                    {x: Math.random() * ref.current!.offsetWidth, y: Math.random() * ref.current!.offsetHeight},
-                    {x: Math.random() * ref.current!.offsetWidth, y: Math.random() * ref.current!.offsetHeight},
-                    {x: Math.random() * ref.current!.offsetWidth, y: Math.random() * ref.current!.offsetHeight},
-                    {x: Math.random() * ref.current!.offsetWidth, y: Math.random() * ref.current!.offsetHeight},
-                    {x: Math.random() * ref.current!.offsetWidth, y: Math.random() * ref.current!.offsetHeight},
-                    {x: Math.random() * ref.current!.offsetWidth, y: Math.random() * ref.current!.offsetHeight},
-                    {x: Math.random() * ref.current!.offsetWidth, y: Math.random() * ref.current!.offsetHeight},
-                    {x: Math.random() * ref.current!.offsetWidth, y: Math.random() * ref.current!.offsetHeight},
-                ])
-            }}
         >
             {
                 imageData.map((item, i) => <CarouselItem key={i} item={item} /> )
@@ -215,7 +216,6 @@ const CarouselItem: FC<CarouseleItemProps> = (props) => {
                 backgroundColor: 'transparent',
             }}
         >
-            <h2>{props.item.title}</h2>
             <img
                 srcSet={`${props.item.imgSrc}?w=270&h=555&fit=fill&auto=format&dpr=3 3x`}
                 src={`${props.item.imgSrc}?w=270&h=555&fit=fill&auto=format`}

@@ -1,12 +1,14 @@
-import {Box, Card, CardContent, CardHeader, CardProps} from "@mui/material";
-import {FC} from "react";
+import {Box, Button, Card, CardActions, CardContent, CardHeader, CardProps, Divider} from "@mui/material";
+import React, {FC, MutableRefObject} from "react";
 
 interface MoguCardProps extends CardProps {
-    title: string
+    title?: string
+    subtitle?: string
+    ref?: MutableRefObject<null>
 }
 
 const MoguCard: FC<MoguCardProps> = (props) => {
-    return (<Box sx={{position: "relative"}}>
+    return (<Box sx={{position: "relative"}} ref={props.ref}>
         <Card
             elevation={3}
             sx={{
@@ -14,8 +16,10 @@ const MoguCard: FC<MoguCardProps> = (props) => {
                 borderRadius: '16px',
                 ...props.sx
             }}
+            {...props}
         >
-            <CardHeader title={props.title}/>
+        {props.title && <CardHeader title={props.title} subheader={props.subtitle}/>}
+        <Divider />
         <CardContent sx={{padding: "32px"}}>
             {props.children}
         </CardContent>

@@ -9,6 +9,12 @@ const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
 const theme = createTheme({
+    typography: {
+        fontSize: 16,
+        h1: {
+            fontFamily: "'Bubblegum Sans', cursive",
+        },
+    },
     components: {
         MuiCard: {
             styleOverrides: {
@@ -17,6 +23,15 @@ const theme = createTheme({
                 },
             },
         },
+        MuiCardHeader: {
+            styleOverrides: {
+                title: {
+                    fontSize: "2.5rem",
+                    fontFamily: "'Amatic SC', cursive",
+                    fontWeight: "bold",
+                }
+            }
+        }
     },
 });
 root.render(
