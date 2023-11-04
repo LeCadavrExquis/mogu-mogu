@@ -4,9 +4,11 @@ import {useSpring} from "@react-spring/web";
 import {imageData, MoguImageData} from "../App";
 import Carousel from "react-material-ui-carousel";
 import {NataCube} from "./NataCube";
-import {useTimeout} from "usehooks-ts";
+import {useEffectOnce, useTimeout} from "usehooks-ts";
 // @ts-ignore
 import {ReactComponent as CloudsSvg} from "../resources/clouds.svg";
+import {BottleFruit} from "./BotlleFruit";
+import {useInterval} from "react-material-ui-carousel/dist/components/util";
 
 interface MoguCarouseleProps {
     items: MoguImageData[]
@@ -15,10 +17,18 @@ interface MoguCarouseleProps {
 export const MoguCarousele: FC<MoguCarouseleProps> = (props) => {
     const ref = useRef<HTMLDivElement>(null)
     const [stateCounter, setStateCounter] = useState(1)
-    const [bottlePos, bottleRef] = useSpring(() => ({
-        pos: [-3000, 0],
+    const [arrivingFruit, arrivingFruitRef] = useSpring(() => ({
+        pos: [-1000, 0],
         config: {
-            duration: 1000,
+            duration: 800,
+            tension: 280,
+            friction: 120
+        },
+    }), [])
+    const [leavingFruit, leavingFruitRef] = useSpring(() => ({
+        pos: [0, 0],
+        config: {
+            duration: 800,
             tension: 280,
             friction: 120
         },
@@ -26,151 +36,71 @@ export const MoguCarousele: FC<MoguCarouseleProps> = (props) => {
 
     const [backgroundColor, setBackgroundColor] = useState(imageData[0].color)
 
-    const [cubes, setCubes] = useState([
-        {x: -1000, y: -1000},
-        {x: -1000, y: -1000},
-        {x: -1000, y: -1000},
-        {x: -1000, y: -1000},
-        {x: -1000, y: -1000},
-        {x: -1000, y: -1000},
-        {x: -1000, y: -1000},
-        {x: -1000, y: -1000},
-        {x: -1000, y: -1000},
-        {x: -1000, y: -1000},
-        {x: -1000, y: -1000},
-        {x: -1000, y: -1000},
-        {x: -1000, y: -1000},
-        {x: -1000, y: -1000},
-        {x: -1000, y: -1000},
-        {x: -1000, y: -1000},
-        {x: -1000, y: -1000},
-        {x: -1000, y: -1000},
-        {x: -1000, y: -1000},
-        {x: -1000, y: -1000},
-        {x: -1000, y: -1000},
-        {x: -1000, y: -1000},
-        {x: -1000, y: -1000},
-        {x: -1000, y: -1000},
-        {x: -1000, y: -1000},
-        {x: -1000, y: -1000},
-        {x: -1000, y: -1000},
-        {x: -1000, y: -1000},
-        {x: -1000, y: -1000},
-        {x: -1000, y: -1000},
-        {x: -1000, y: -1000},
-        {x: -1000, y: -1000},
-        {x: -1000, y: -1000},
-        {x: -1000, y: -1000},
-        {x: -1000, y: -1000},
-        {x: -1000, y: -1000},
-        {x: -1000, y: -1000},
-        {x: -1000, y: -1000},
-    ])
+    const CUBE_COUNT = 20
+    const [cubes, setCubes] = useState(
+        Array(CUBE_COUNT)
+            .fill(1)
+            .map(() => {
+            return {x: -1000, y: -1000}
+        })
+    )
 
-    useTimeout(() => {
-        setCubes([
-            {x: Math.random() * ref.current!.offsetWidth, y: Math.random() * ref.current!.offsetHeight},
-            {x: Math.random() * ref.current!.offsetWidth, y: Math.random() * ref.current!.offsetHeight},
-            {x: Math.random() * ref.current!.offsetWidth, y: Math.random() * ref.current!.offsetHeight},
-            {x: Math.random() * ref.current!.offsetWidth, y: Math.random() * ref.current!.offsetHeight},
-            {x: Math.random() * ref.current!.offsetWidth, y: Math.random() * ref.current!.offsetHeight},
-            {x: Math.random() * ref.current!.offsetWidth, y: Math.random() * ref.current!.offsetHeight},
-            {x: Math.random() * ref.current!.offsetWidth, y: Math.random() * ref.current!.offsetHeight},
-            {x: Math.random() * ref.current!.offsetWidth, y: Math.random() * ref.current!.offsetHeight},
-            {x: Math.random() * ref.current!.offsetWidth, y: Math.random() * ref.current!.offsetHeight},
-            {x: Math.random() * ref.current!.offsetWidth, y: Math.random() * ref.current!.offsetHeight},
-            {x: Math.random() * ref.current!.offsetWidth, y: Math.random() * ref.current!.offsetHeight},
-            {x: Math.random() * ref.current!.offsetWidth, y: Math.random() * ref.current!.offsetHeight},
-            {x: Math.random() * ref.current!.offsetWidth, y: Math.random() * ref.current!.offsetHeight},
-            {x: Math.random() * ref.current!.offsetWidth, y: Math.random() * ref.current!.offsetHeight},
-            {x: Math.random() * ref.current!.offsetWidth, y: Math.random() * ref.current!.offsetHeight},
-            {x: Math.random() * ref.current!.offsetWidth, y: Math.random() * ref.current!.offsetHeight},
-            {x: Math.random() * ref.current!.offsetWidth, y: Math.random() * ref.current!.offsetHeight},
-            {x: Math.random() * ref.current!.offsetWidth, y: Math.random() * ref.current!.offsetHeight},
-            {x: Math.random() * ref.current!.offsetWidth, y: Math.random() * ref.current!.offsetHeight},
-            {x: Math.random() * ref.current!.offsetWidth, y: Math.random() * ref.current!.offsetHeight},
-            {x: Math.random() * ref.current!.offsetWidth, y: Math.random() * ref.current!.offsetHeight},
-            {x: Math.random() * ref.current!.offsetWidth, y: Math.random() * ref.current!.offsetHeight},
-            {x: Math.random() * ref.current!.offsetWidth, y: Math.random() * ref.current!.offsetHeight},
-            {x: Math.random() * ref.current!.offsetWidth, y: Math.random() * ref.current!.offsetHeight},
-            {x: Math.random() * ref.current!.offsetWidth, y: Math.random() * ref.current!.offsetHeight},
-            {x: Math.random() * ref.current!.offsetWidth, y: Math.random() * ref.current!.offsetHeight},
-            {x: Math.random() * ref.current!.offsetWidth, y: Math.random() * ref.current!.offsetHeight},
-            {x: Math.random() * ref.current!.offsetWidth, y: Math.random() * ref.current!.offsetHeight},
-            {x: Math.random() * ref.current!.offsetWidth, y: Math.random() * ref.current!.offsetHeight},
-            {x: Math.random() * ref.current!.offsetWidth, y: Math.random() * ref.current!.offsetHeight},
-            {x: Math.random() * ref.current!.offsetWidth, y: Math.random() * ref.current!.offsetHeight},
-            {x: Math.random() * ref.current!.offsetWidth, y: Math.random() * ref.current!.offsetHeight},
-            {x: Math.random() * ref.current!.offsetWidth, y: Math.random() * ref.current!.offsetHeight},
-            {x: Math.random() * ref.current!.offsetWidth, y: Math.random() * ref.current!.offsetHeight},
-            {x: Math.random() * ref.current!.offsetWidth, y: Math.random() * ref.current!.offsetHeight},
-            {x: Math.random() * ref.current!.offsetWidth, y: Math.random() * ref.current!.offsetHeight},
-            {x: Math.random() * ref.current!.offsetWidth, y: Math.random() * ref.current!.offsetHeight},
-            {x: Math.random() * ref.current!.offsetWidth, y: Math.random() * ref.current!.offsetHeight},
-            {x: Math.random() * ref.current!.offsetWidth, y: Math.random() * ref.current!.offsetHeight},
-            {x: Math.random() * ref.current!.offsetWidth, y: Math.random() * ref.current!.offsetHeight},
-        ])
-    }, 100)
+    const getCurrentItem = useCallback(() => {
+        return props.items[props.currentIdx]
+    }, [props.currentIdx, props.items])
 
-    // useInterval(() => {
-    //     if (stateCounter % 5 === 0) {
-    //         bottleRef.update({pos: [-3000, 0]})
-    //         bottleRef.start()
-    //     }
-    //     console.log(ref)
-    //     if (stateCounter % 5 === 1) {
-    //         bottleRef.update({pos: [0, 0]})
-    //         bottleRef.start()
-    //
-    //     }
-    //     setStateCounter(stateCounter + 1)
-    // }, 0)
+    const getNextItem = useCallback(() => {
+        return props.items[(props.currentIdx + 1) % props.items.length]
+    }, [props.currentIdx, props.items])
+
+    const animateFruits = useCallback(async () => {
+        arrivingFruitRef.update({pos: [0, 200]})
+        arrivingFruitRef.start()
+        leavingFruitRef.update({pos: [800, 400]})
+        leavingFruitRef.start()
+        await new Promise(r => setTimeout(r, 300))
+        arrivingFruitRef.update({pos: [400, 200]})
+        arrivingFruitRef.start()
+        leavingFruitRef.update({pos: [600, 300]})
+        leavingFruitRef.start()
+        await new Promise(r => setTimeout(r, 200))
+        arrivingFruitRef.update({pos: [600, 300]})
+        arrivingFruitRef.start()
+        leavingFruitRef.update({pos: [400, 200]})
+        leavingFruitRef.start()
+        await new Promise(r => setTimeout(r, 100))
+        arrivingFruitRef.update({pos: [800, 400]})
+        arrivingFruitRef.start()
+        leavingFruitRef.update({pos: [0, 200]})
+        leavingFruitRef.start()
+    }, [arrivingFruitRef, leavingFruitRef])
+
+    useEffectOnce(() => {
+        setCubes(
+            Array(CUBE_COUNT)
+                .fill(1)
+                .map(() => {
+                return {x: Math.random() * ref.current!.offsetWidth, y: Math.random() * ref.current!.offsetHeight}
+            })
+        )
+    })
+
+    useInterval(() => {
+        arrivingFruitRef.update({pos: [400, 0]})
+        arrivingFruitRef.start()
+    }, 2000)
 
     useEffect(() => {
-        setBackgroundColor(props.items[props.currentIdx].color)
-        setCubes([
-            {x: Math.random() * ref.current!.offsetWidth, y: Math.random() * ref.current!.offsetHeight},
-            {x: Math.random() * ref.current!.offsetWidth, y: Math.random() * ref.current!.offsetHeight},
-            {x: Math.random() * ref.current!.offsetWidth, y: Math.random() * ref.current!.offsetHeight},
-            {x: Math.random() * ref.current!.offsetWidth, y: Math.random() * ref.current!.offsetHeight},
-            {x: Math.random() * ref.current!.offsetWidth, y: Math.random() * ref.current!.offsetHeight},
-            {x: Math.random() * ref.current!.offsetWidth, y: Math.random() * ref.current!.offsetHeight},
-            {x: Math.random() * ref.current!.offsetWidth, y: Math.random() * ref.current!.offsetHeight},
-            {x: Math.random() * ref.current!.offsetWidth, y: Math.random() * ref.current!.offsetHeight},
-            {x: Math.random() * ref.current!.offsetWidth, y: Math.random() * ref.current!.offsetHeight},
-            {x: Math.random() * ref.current!.offsetWidth, y: Math.random() * ref.current!.offsetHeight},
-            {x: Math.random() * ref.current!.offsetWidth, y: Math.random() * ref.current!.offsetHeight},
-            {x: Math.random() * ref.current!.offsetWidth, y: Math.random() * ref.current!.offsetHeight},
-            {x: Math.random() * ref.current!.offsetWidth, y: Math.random() * ref.current!.offsetHeight},
-            {x: Math.random() * ref.current!.offsetWidth, y: Math.random() * ref.current!.offsetHeight},
-            {x: Math.random() * ref.current!.offsetWidth, y: Math.random() * ref.current!.offsetHeight},
-            {x: Math.random() * ref.current!.offsetWidth, y: Math.random() * ref.current!.offsetHeight},
-            {x: Math.random() * ref.current!.offsetWidth, y: Math.random() * ref.current!.offsetHeight},
-            {x: Math.random() * ref.current!.offsetWidth, y: Math.random() * ref.current!.offsetHeight},
-            {x: Math.random() * ref.current!.offsetWidth, y: Math.random() * ref.current!.offsetHeight},
-            {x: Math.random() * ref.current!.offsetWidth, y: Math.random() * ref.current!.offsetHeight},
-            {x: Math.random() * ref.current!.offsetWidth, y: Math.random() * ref.current!.offsetHeight},
-            {x: Math.random() * ref.current!.offsetWidth, y: Math.random() * ref.current!.offsetHeight},
-            {x: Math.random() * ref.current!.offsetWidth, y: Math.random() * ref.current!.offsetHeight},
-            {x: Math.random() * ref.current!.offsetWidth, y: Math.random() * ref.current!.offsetHeight},
-            {x: Math.random() * ref.current!.offsetWidth, y: Math.random() * ref.current!.offsetHeight},
-            {x: Math.random() * ref.current!.offsetWidth, y: Math.random() * ref.current!.offsetHeight},
-            {x: Math.random() * ref.current!.offsetWidth, y: Math.random() * ref.current!.offsetHeight},
-            {x: Math.random() * ref.current!.offsetWidth, y: Math.random() * ref.current!.offsetHeight},
-            {x: Math.random() * ref.current!.offsetWidth, y: Math.random() * ref.current!.offsetHeight},
-            {x: Math.random() * ref.current!.offsetWidth, y: Math.random() * ref.current!.offsetHeight},
-            {x: Math.random() * ref.current!.offsetWidth, y: Math.random() * ref.current!.offsetHeight},
-            {x: Math.random() * ref.current!.offsetWidth, y: Math.random() * ref.current!.offsetHeight},
-            {x: Math.random() * ref.current!.offsetWidth, y: Math.random() * ref.current!.offsetHeight},
-            {x: Math.random() * ref.current!.offsetWidth, y: Math.random() * ref.current!.offsetHeight},
-            {x: Math.random() * ref.current!.offsetWidth, y: Math.random() * ref.current!.offsetHeight},
-            {x: Math.random() * ref.current!.offsetWidth, y: Math.random() * ref.current!.offsetHeight},
-            {x: Math.random() * ref.current!.offsetWidth, y: Math.random() * ref.current!.offsetHeight},
-            {x: Math.random() * ref.current!.offsetWidth, y: Math.random() * ref.current!.offsetHeight},
-            {x: Math.random() * ref.current!.offsetWidth, y: Math.random() * ref.current!.offsetHeight},
-            {x: Math.random() * ref.current!.offsetWidth, y: Math.random() * ref.current!.offsetHeight},
-        ])
-    }, [props.currentIdx, props.items]);
+        setBackgroundColor(getCurrentItem().color)
+        setCubes(
+            Array(CUBE_COUNT)
+                .fill(1)
+                .map(() => {
+                return {x: Math.random() * ref.current!.offsetWidth, y: Math.random() * ref.current!.offsetHeight}
+            })
+        )
+        animateFruits()
+    }, [animateFruits, arrivingFruitRef, getCurrentItem, props.currentIdx, props.items])
 
     return <Box ref={ref}
                 width={1000}
@@ -189,6 +119,12 @@ export const MoguCarousele: FC<MoguCarouseleProps> = (props) => {
                         pos={pos}
                     />
                 )
+        }
+        {
+            <BottleFruit fruitImageUrl={getCurrentItem().fruitSrc} visible={true} pos={arrivingFruit.pos} />
+        }
+        {
+            <BottleFruit fruitImageUrl={getNextItem().fruitSrc} visible={true} pos={leavingFruit.pos} />
         }
         <Carousel
             index={props.currentIdx}

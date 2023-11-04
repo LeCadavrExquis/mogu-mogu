@@ -16,6 +16,16 @@ const theme = createTheme({
         },
     },
     components: {
+        MuiButton: {
+            styleOverrides: {
+                outlined: {
+                    borderColor: "rgba(255,255,255,0)",
+                    color: "black",
+                    fontSize: "1.5rem",
+                    fontFamily: "'Amatic SC', sans-serif",
+                },
+            },
+        },
         MuiCard: {
             styleOverrides: {
                 root: {

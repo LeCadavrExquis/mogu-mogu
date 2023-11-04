@@ -9,21 +9,23 @@ import {
     Stack,
     Typography
 } from "@mui/material";
-import {FC} from "react";
+import React, {FC} from "react";
 import { MoguImageData } from "../App";
+import {BottleFruit} from "./BotlleFruit";
 
 interface MoguGalleryProps {
     imageData: MoguImageData[]
 }
 
 const MoguGallery: FC<MoguGalleryProps> = (props) => {
-    return <Box>
-        <ImageList cols={4} gap={2}>
+    return <Box sx={{width: '90%'}}>
+        <ImageList cols={4} gap={2} sx={{w: 1}}>
         {
             props.imageData.map((image) => {
                 return <ImageListItem
                     sx={{marginTop: 5}}
                 >
+                    <BottleFruit fruitImageUrl={image.fruitSrc} visible={true} pos={[150, 175]} />
                     <MoguGalleryTile image={image} />
                 </ImageListItem>;
             })

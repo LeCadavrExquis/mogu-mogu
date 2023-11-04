@@ -8,41 +8,86 @@ import {MoguMenuHeader} from "./components/MoguMenuHeader";
 import {useInterval} from "react-material-ui-carousel/dist/components/util";
 import {MoguGallery} from "./components/MoguGallery";
 import YouTube, {YouTubeProps} from "react-youtube";
+import {BottleFruit} from "./components/BotlleFruit";
+import {NataCube} from "./components/NataCube";
+import {useTimeout} from "usehooks-ts";
 
 export type MoguImageData = {
     imgSrc: string
+    fruitSrc: string
     color: string
     title: string
 }
 
 export const imageData: Array<MoguImageData> = [
-    { imgSrc: "/img/bottles/Coconut.png", color: "#f2f2f2", title: "Kokos" },
-    { imgSrc: "/img/bottles/Grape.png", color: "#7b8ef2", title: "Winogrono" },
-    { imgSrc: "/img/bottles/Mango.png", color: "#ffab5b", title: "Mango" },
-    { imgSrc: "/img/bottles/Orange.png", color: "#ff8c42", title: "Pomarańcza" },
-    { imgSrc: "/img/bottles/Peach.png", color: "#ffc492", title: "Brzoskwinia" },
-    { imgSrc: "/img/bottles/Pineapple.png", color: "#ffc740", title: "Ananas" },
-    { imgSrc: "/img/bottles/Raseberry.png", color: "#be408b", title: "Malina" },
-    { imgSrc: "/img/bottles/Watermelon.png", color: "#ff5e5e", title: "Arbuz" },
-    { imgSrc: "/img/bottles/CottonCandy.png", color: "#ffb8ff", title: "Wata cukrowa" },
-    { imgSrc: "/img/bottles/Lychee.png", color: "#ff738f", title: "Liczi" },
-    { imgSrc: "/img/bottles/Melon.png", color: "#e8ff87", title: "Melon" },
-    { imgSrc: "/img/bottles/PassionFruit.png", color: "#ffaf2b", title: "Marakuja" },
-    { imgSrc: "/img/bottles/PinaColada.png", color: "#fff5b1", title: "Pina Colada" },
-    { imgSrc: "/img/bottles/PinkGuava.png", color: "#ff8197", title: "Różowa Guava" },
-    { imgSrc: "/img/bottles/Strawberry.png", color: "#ff6d6d", title: "Truskawka" },
-    { imgSrc: "/img/bottles/Yogurt.png", color: "#f2d9ff", title: "Jogurt" },
+    { imgSrc: "/img/bottle/Coconut.png", color: "#f2f2f2", title: "Kokos", fruitSrc: "/img/fruit/Coconut_fruit.png" },
+    { imgSrc: "/img/bottle/Grape.png", color: "#7b8ef2", title: "Winogrono", fruitSrc: "/img/fruit/Grape_fruit.png" },
+    { imgSrc: "/img/bottle/Mango.png", color: "#ffab5b", title: "Mango", fruitSrc: "/img/fruit/Mango_fruit.png" },
+    { imgSrc: "/img/bottle/Orange.png", color: "#ff8c42", title: "Pomarańcza", fruitSrc: "/img/fruit/Orange_fruit.png" },
+    { imgSrc: "/img/bottle/Peach.png", color: "#ffc492", title: "Brzoskwinia", fruitSrc: "/img/fruit/Peach_fruit.png" },
+    { imgSrc: "/img/bottle/Pineapple.png", color: "#ffc740", title: "Ananas", fruitSrc: "/img/fruit/Pineapple_fruit.png" },
+    { imgSrc: "/img/bottle/Raseberry.png", color: "#be408b", title: "Malina", fruitSrc: "/img/fruit/Raseberry_fruit.png" },
+    { imgSrc: "/img/bottle/Watermelon.png", color: "#ff5e5e", title: "Arbuz", fruitSrc: "/img/fruit/Watermelon_fruit.png" },
+    { imgSrc: "/img/bottle/CottonCandy.png", color: "#ffb8ff", title: "Wata cukrowa", fruitSrc: "/img/fruit/CottonCandy_fruit.png" },
+    { imgSrc: "/img/bottle/Lychee.png", color: "#ff738f", title: "Liczi", fruitSrc: "/img/fruit/Lychee_fruit.png" },
+    { imgSrc: "/img/bottle/Melon.png", color: "#e8ff87", title: "Melon", fruitSrc: "/img/fruit/Melon_fruit.png" },
+    { imgSrc: "/img/bottle/PassionFruit.png", color: "#ffaf2b", title: "Marakuja", fruitSrc: "/img/fruit/PassionFruit_fruit.png" },
+    { imgSrc: "/img/bottle/PinaColada.png", color: "#fff5b1", title: "Pina Colada", fruitSrc: "/img/fruit/PinaColada_fruit.png" },
+    { imgSrc: "/img/bottle/PinkGuava.png", color: "#ff8197", title: "Różowa Guava", fruitSrc: "/img/fruit/PinkGuava_fruit.png" },
+    { imgSrc: "/img/bottle/Strawberry.png", color: "#ff6d6d", title: "Truskawka", fruitSrc: "/img/fruit/Strawberry_fruit.png" },
+    { imgSrc: "/img/bottle/Yogurt.png", color: "#f2d9ff", title: "Jogurt", fruitSrc: "/img/fruit/Yogurt_fruit.png" }
 ]
+
 
 function App() {
     const [currentBottleIdx, setCurrentBottleIdx] = useState(0)
+    const ref = useRef<HTMLDivElement>(null)
+
+    const CUBE_COUNT = 50
+    const [cubes, setCubes] = useState(
+        Array(CUBE_COUNT)
+            .fill(1)
+            .map(() => {
+                return {x: 1000, y: 1000}
+            })
+    )
 
     useInterval(() => {
         setCurrentBottleIdx((currentBottleIdx + 1) % imageData.length)
     }, 3000)
 
+    useTimeout(() => {
+        setCubes(
+            Array(CUBE_COUNT)
+                .fill(1)
+                .map(() => {
+                    return {x: Math.random() * ref.current!.offsetWidth / 2, y: Math.random() * ref.current!.offsetHeight / 2}
+                })
+        )
+    }, 200)
+
+    useTimeout(() => {
+        setCubes(
+            Array(CUBE_COUNT)
+                .fill(1)
+                .map(() => {
+                    return {x: Math.random() * ref.current!.offsetWidth / 2, y: Math.random() * ref.current!.offsetHeight / 2}
+                })
+        )
+    }, 400)
+
+    useTimeout(() => {
+        setCubes(
+            Array(CUBE_COUNT)
+                .fill(1)
+                .map(() => {
+                    return {x: 0, y: 0}
+                })
+        )
+    }, 200)
+
     return (
-    <div className="App">
+    <div className="App" ref={ref}>
         <Stack
             alignItems={"center"}
             spacing={2}
@@ -91,6 +136,17 @@ function App() {
             <ContactCard />
             <Divider className={"end"} sx={{height: 64}} />
         </Stack>
+        {
+            cubes
+                .filter(pos => pos.x > 0)
+                .map((pos, idx) =>
+                    <NataCube
+                        key={idx}
+                        index={idx}
+                        pos={pos}
+                    />
+                )
+        }
     </div>
   );
 }
