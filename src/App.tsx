@@ -1,4 +1,4 @@
-import React, {FC, useRef, useState} from 'react';
+import React, {FC, useLayoutEffect, useRef, useState} from 'react';
 import './App.css';
 import {Box, Button, Divider, Link, Stack, Typography} from "@mui/material";
 import {EmailRounded, FacebookOutlined, HomeWorkRounded, Instagram, PhoneInTalkRounded} from "@mui/icons-material";
@@ -20,22 +20,23 @@ export type MoguImageData = {
 }
 
 export const imageData: Array<MoguImageData> = [
-    { imgSrc: "/img/bottle/Coconut.png", color: "#f2f2f2", title: "Kokos", fruitSrc: "/img/fruit/Coconut_fruit.png" },
-    { imgSrc: "/img/bottle/Grape.png", color: "#7b8ef2", title: "Winogrono", fruitSrc: "/img/fruit/Grape_fruit.png" },
-    { imgSrc: "/img/bottle/Mango.png", color: "#ffab5b", title: "Mango", fruitSrc: "/img/fruit/Mango_fruit.png" },
-    { imgSrc: "/img/bottle/Orange.png", color: "#ff8c42", title: "Pomarańcza", fruitSrc: "/img/fruit/Orange_fruit.png" },
-    { imgSrc: "/img/bottle/Peach.png", color: "#ffc492", title: "Brzoskwinia", fruitSrc: "/img/fruit/Peach_fruit.png" },
-    { imgSrc: "/img/bottle/Pineapple.png", color: "#ffc740", title: "Ananas", fruitSrc: "/img/fruit/Pineapple_fruit.png" },
-    { imgSrc: "/img/bottle/Raseberry.png", color: "#be408b", title: "Malina", fruitSrc: "/img/fruit/Raseberry_fruit.png" },
-    { imgSrc: "/img/bottle/Watermelon.png", color: "#ff5e5e", title: "Arbuz", fruitSrc: "/img/fruit/Watermelon_fruit.png" },
-    { imgSrc: "/img/bottle/CottonCandy.png", color: "#ffb8ff", title: "Wata cukrowa", fruitSrc: "/img/fruit/CottonCandy_fruit.png" },
-    { imgSrc: "/img/bottle/Lychee.png", color: "#ff738f", title: "Liczi", fruitSrc: "/img/fruit/Lychee_fruit.png" },
-    { imgSrc: "/img/bottle/Melon.png", color: "#e8ff87", title: "Melon", fruitSrc: "/img/fruit/Melon_fruit.png" },
-    { imgSrc: "/img/bottle/PassionFruit.png", color: "#ffaf2b", title: "Marakuja", fruitSrc: "/img/fruit/PassionFruit_fruit.png" },
-    { imgSrc: "/img/bottle/PinaColada.png", color: "#fff5b1", title: "Pina Colada", fruitSrc: "/img/fruit/PinaColada_fruit.png" },
-    { imgSrc: "/img/bottle/PinkGuava.png", color: "#ff8197", title: "Różowa Guava", fruitSrc: "/img/fruit/PinkGuava_fruit.png" },
     { imgSrc: "/img/bottle/Strawberry.png", color: "#ff6d6d", title: "Truskawka", fruitSrc: "/img/fruit/Strawberry_fruit.png" },
-    { imgSrc: "/img/bottle/Yogurt.png", color: "#f2d9ff", title: "Jogurt", fruitSrc: "/img/fruit/Yogurt_fruit.png" }
+    { imgSrc: "/img/bottle/Raseberry.png", color: "#be408b", title: "Malina", fruitSrc: "/img/fruit/Raseberry_fruit.png" },
+    { imgSrc: "/img/bottle/Lychee.png", color: "#ff738f", title: "Liczi", fruitSrc: "/img/fruit/Lychee_fruit.png" },
+    { imgSrc: "/img/bottle/PinkGuava.png", color: "#ff8197", title: "Różowa Guava", fruitSrc: "/img/fruit/PinkGuava_fruit.png" },
+    { imgSrc: "/img/bottle/CottonCandy.png", color: "#ffb8ff", title: "Wata cukrowa", fruitSrc: "/img/fruit/CottonCandy_fruit.png" },
+    { imgSrc: "/img/bottle/Orange.png", color: "#ff8c42", title: "Pomarańcza", fruitSrc: "/img/fruit/Orange_fruit.png" },
+    { imgSrc: "/img/bottle/Mango.png", color: "#ffab5b", title: "Mango", fruitSrc: "/img/fruit/Mango_fruit.png" },
+    // { imgSrc: "/img/bottle/Watermelon_new.png", color: "#ff5e5e", title: "Arbuz", fruitSrc: "/img/fruit/Watermelon_fruit.png" },
+    { imgSrc: "/img/bottle/PassionFruit.png", color: "#ffaf2b", title: "Marakuja", fruitSrc: "/img/fruit/PassionFruit_fruit.png" },
+    { imgSrc: "/img/bottle/Pineapple.png", color: "#ffc740", title: "Ananas", fruitSrc: "/img/fruit/Pineapple_fruit.png" },
+    { imgSrc: "/img/bottle/Peach.png", color: "#ffc492", title: "Brzoskwinia", fruitSrc: "/img/fruit/Peach_fruit.png" },
+    { imgSrc: "/img/bottle/Melon.png", color: "#e8ff87", title: "Melon", fruitSrc: "/img/fruit/Melon_fruit.png" },
+    { imgSrc: "/img/bottle/PinaColada.png", color: "#fff5b1", title: "Pina Colada", fruitSrc: "/img/fruit/PinaColada_fruit.png" },
+    { imgSrc: "/img/bottle/BubbleGum.png", color: "#48a6ec", title: "Jogurt", fruitSrc: "/img/fruit/BubbleGum_fruit.png" },
+    { imgSrc: "/img/bottle/Grape.png", color: "#590cf5", title: "Winogrono", fruitSrc: "/img/fruit/Grape_fruit.png" },
+    { imgSrc: "/img/bottle/Yogurt.png", color: "#f2d9ff", title: "Jogurt", fruitSrc: "/img/fruit/Yogurt_fruit.png" },
+    { imgSrc: "/img/bottle/Coconut.png", color: "#f2f2f2", title: "Kokos", fruitSrc: "/img/fruit/Coconut_fruit.png" },
 ]
 
 
@@ -43,51 +44,56 @@ function App() {
     const [currentBottleIdx, setCurrentBottleIdx] = useState(0)
     const ref = useRef<HTMLDivElement>(null)
 
-    const CUBE_COUNT = 50
+    const CUBE_COUNT = 150
     const [cubes, setCubes] = useState(
         Array(CUBE_COUNT)
             .fill(1)
             .map(() => {
-                return {x: 1000, y: 1000}
+                return {x: Math.random() * (window.screen.width - 150), y: Math.random() * (window.screen.height - 150)}
             })
     )
 
     useInterval(() => {
-        setCurrentBottleIdx((currentBottleIdx + 1) % imageData.length)
-    }, 3000)
+        if (currentBottleIdx + 1 !== imageData.length && imageData[currentBottleIdx + 1].title === "Arbuz") {
+            setCurrentBottleIdx((currentBottleIdx + 2) % imageData.length)
+        } else {
+            setCurrentBottleIdx((currentBottleIdx + 1) % imageData.length)
+        }
+    }, 5000)
 
     useTimeout(() => {
         setCubes(
             Array(CUBE_COUNT)
                 .fill(1)
                 .map(() => {
-                    return {x: Math.random() * ref.current!.offsetWidth / 2, y: Math.random() * ref.current!.offsetHeight / 2}
+                    return {x: Math.random() * (ref.current?.offsetWidth! - 100), y: Math.random() * (ref.current?.offsetHeight! - 100)}
                 })
         )
-    }, 200)
-
-    useTimeout(() => {
-        setCubes(
-            Array(CUBE_COUNT)
-                .fill(1)
-                .map(() => {
-                    return {x: Math.random() * ref.current!.offsetWidth / 2, y: Math.random() * ref.current!.offsetHeight / 2}
-                })
-        )
-    }, 400)
-
-    useTimeout(() => {
-        setCubes(
-            Array(CUBE_COUNT)
-                .fill(1)
-                .map(() => {
-                    return {x: 0, y: 0}
-                })
-        )
-    }, 200)
+    }, 500)
 
     return (
     <div className="App" ref={ref}>
+        {
+            cubes
+                .filter(pos => pos.x > 0)
+                .map((pos, idx) =>
+                    <NataCube
+                        key={idx}
+                        index={idx}
+                        pos={pos}
+                        crawlingSpeed={20000}
+                        onClick={() => {
+                            setCubes(
+                                Array(CUBE_COUNT)
+                                    .fill(1)
+                                    .map(() => {
+                                        return {x: Math.random() * (ref.current?.offsetWidth!), y: Math.random() * (ref.current?.offsetHeight!)}
+                                    })
+                            )
+                        }}
+                    />
+                )
+        }
         <Stack
             alignItems={"center"}
             spacing={2}
@@ -122,7 +128,7 @@ function App() {
             </Stack>
             <Typography
                 variant={"h1"}
-                sx={{m:3}}
+                sx={{m:3, zIndex: 2}}
                 className={"flavors"}
             >
                 Odkryj wszystkie smaki!
@@ -136,17 +142,6 @@ function App() {
             <ContactCard />
             <Divider className={"end"} sx={{height: 64}} />
         </Stack>
-        {
-            cubes
-                .filter(pos => pos.x > 0)
-                .map((pos, idx) =>
-                    <NataCube
-                        key={idx}
-                        index={idx}
-                        pos={pos}
-                    />
-                )
-        }
     </div>
   );
 }
@@ -180,7 +175,7 @@ const ContactCard: FC = () => {
             <Stack direction={"row"} sx={{width: 1000, marginBottom: 4}} justifyContent={"space-around"}>
                 <Stack direction={"column"}>
                     <Typography variant={"h5"}>
-                        Jean Michel Żarnowiec
+                        Jean-Michel Żarnowiec
                     </Typography>
                     <Divider sx={{marginBottom: 2}}/>
                     <Stack direction={"row"}>
@@ -240,6 +235,7 @@ const FindUs: FC = () => {
             autoplay: 1,
             muted: true,
             start: 33,
+            playlist: "FcJzUyFmJPM,nUefdXHpDgc,cpkfPJFwMQo,KMzz0_YeVq4"
         },
     }
 
@@ -256,7 +252,7 @@ const FindUs: FC = () => {
                 <Stack direction={"column"}>
                     <Typography paragraph={true}>
                         Polscy konsumenci mogą przekonać się o wyjątkowości Mogu Mogu, dzięki firmie Pol Amal, oficjalnemu importerowi i dystrybutorowi Mogu Mogu.
-                        Napój znajdziesz w sieciach sklepów Aldi, Auchan, Biedronka, Kuchnie Świata. Dostępy również w hurtowniach Makro.
+                        Napój znajdziesz w sieciach sklepów Aldi, Auchan, Kuchnie Świata. Dostępy również w hurtowniach warszawMakro.
                     </Typography>
                     <Typography paragraph={true}>
                         Znasz już piosenkę o Mogu Mogu? Żeby zobaczyć więcej i być na bieżąco z nowościami śledź nas na mediach społecznościowych.

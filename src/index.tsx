@@ -21,7 +21,7 @@ const theme = createTheme({
                 outlined: {
                     borderColor: "rgba(255,255,255,0)",
                     color: "black",
-                    fontSize: "1.5rem",
+                    fontSize: "1.3rem",
                     fontFamily: "'Amatic SC', sans-serif",
                 },
             },

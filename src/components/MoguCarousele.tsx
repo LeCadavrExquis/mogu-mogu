@@ -4,7 +4,7 @@ import {useSpring} from "@react-spring/web";
 import {imageData, MoguImageData} from "../App";
 import Carousel from "react-material-ui-carousel";
 import {NataCube} from "./NataCube";
-import {useEffectOnce, useTimeout} from "usehooks-ts";
+import {useEffectOnce, useElementSize, useTimeout} from "usehooks-ts";
 // @ts-ignore
 import {ReactComponent as CloudsSvg} from "../resources/clouds.svg";
 import {BottleFruit} from "./BotlleFruit";
@@ -15,12 +15,12 @@ interface MoguCarouseleProps {
     currentIdx: number
 }
 export const MoguCarousele: FC<MoguCarouseleProps> = (props) => {
-    const ref = useRef<HTMLDivElement>(null)
-    const [stateCounter, setStateCounter] = useState(1)
+    const [squareRef, { width, height }] = useElementSize()
+
     const [arrivingFruit, arrivingFruitRef] = useSpring(() => ({
-        pos: [-1000, 0],
+        pos: [0, 0],
         config: {
-            duration: 800,
+            duration: 300,
             tension: 280,
             friction: 120
         },
@@ -28,11 +28,15 @@ export const MoguCarousele: FC<MoguCarouseleProps> = (props) => {
     const [leavingFruit, leavingFruitRef] = useSpring(() => ({
         pos: [0, 0],
         config: {
-            duration: 800,
-            tension: 280,
-            friction: 120
+            duration: 500,
+            tension: 180,
+            friction: 220
         },
     }), [])
+    const [isLeavingBottleVisible, setIsLeavingBottleVisible] = useState(false)
+    const [leavingBottleSrc, setLeavingBottleSrc] = useState(props.items[0].fruitSrc)
+    const [isNewFruitVisible, setIsNewFruitVisible] = useState(false)
+    const [newFruitSrc, setNewFruitSrc] = useState(props.items[0].fruitSrc)
 
     const [backgroundColor, setBackgroundColor] = useState(imageData[0].color)
 
@@ -45,64 +49,69 @@ export const MoguCarousele: FC<MoguCarouseleProps> = (props) => {
         })
     )
 
-    const getCurrentItem = useCallback(() => {
-        return props.items[props.currentIdx]
-    }, [props.currentIdx, props.items])
-
-    const getNextItem = useCallback(() => {
-        return props.items[(props.currentIdx + 1) % props.items.length]
-    }, [props.currentIdx, props.items])
+    const [firstRun, setFirstRun] = useState(true)
 
     const animateFruits = useCallback(async () => {
-        arrivingFruitRef.update({pos: [0, 200]})
+        await new Promise(r => setTimeout(r, 400))
+        arrivingFruitRef.update({pos: [(width / 2) + 150, (height / 2) + 100]})
         arrivingFruitRef.start()
-        leavingFruitRef.update({pos: [800, 400]})
+        leavingFruitRef.update({pos: [100, height - 100]})
         leavingFruitRef.start()
-        await new Promise(r => setTimeout(r, 300))
-        arrivingFruitRef.update({pos: [400, 200]})
+        await new Promise(r => setTimeout(r, 400))
+        leavingFruitRef.update({pos: [-1*width / 2, 0]})
+        leavingFruitRef.start()
+        await new Promise(r => setTimeout(r, 400))
+        setIsLeavingBottleVisible(false)
+        setLeavingBottleSrc(props.items[props.currentIdx].fruitSrc)
+        leavingFruitRef.update({pos: [(width / 2) + 150, (height / 2) + 100]})
+        leavingFruitRef.start()
+        await new Promise(r => setTimeout(r, 600))
+        setIsLeavingBottleVisible(true)
+        setIsNewFruitVisible(false)
+        await new Promise(r => setTimeout(r, 1000))
+        arrivingFruitRef.update({pos: [(width / 2) - 120, (height / 2)]})
         arrivingFruitRef.start()
-        leavingFruitRef.update({pos: [600, 300]})
-        leavingFruitRef.start()
-        await new Promise(r => setTimeout(r, 200))
-        arrivingFruitRef.update({pos: [600, 300]})
-        arrivingFruitRef.start()
-        leavingFruitRef.update({pos: [400, 200]})
-        leavingFruitRef.start()
-        await new Promise(r => setTimeout(r, 100))
-        arrivingFruitRef.update({pos: [800, 400]})
-        arrivingFruitRef.start()
-        leavingFruitRef.update({pos: [0, 200]})
-        leavingFruitRef.start()
-    }, [arrivingFruitRef, leavingFruitRef])
+        // setIsLeavingBottleVisible(false)
+        // leavingFruitRef.update({pos: [(width / 2) + 150, height - 250]})
+        // leavingFruitRef.start()
+        // await new Promise(r => setTimeout(r, 1200))
+        // arrivingFruitRef.update({pos: [(width - 200) / 2, height / 2]})
+        // arrivingFruitRef.start()
+        // leavingFruitRef.update({pos: [(width - 200) / 4, 3 * height / 2]})
+    }, [arrivingFruitRef, height, leavingFruitRef, props.currentIdx, props.items, width])
 
     useEffectOnce(() => {
         setCubes(
             Array(CUBE_COUNT)
                 .fill(1)
                 .map(() => {
-                return {x: Math.random() * ref.current!.offsetWidth, y: Math.random() * ref.current!.offsetHeight}
+                return {x: Math.random() * width, y: Math.random() * height}
             })
         )
     })
 
-    useInterval(() => {
-        arrivingFruitRef.update({pos: [400, 0]})
-        arrivingFruitRef.start()
-    }, 2000)
-
     useEffect(() => {
-        setBackgroundColor(getCurrentItem().color)
-        setCubes(
-            Array(CUBE_COUNT)
-                .fill(1)
-                .map(() => {
-                return {x: Math.random() * ref.current!.offsetWidth, y: Math.random() * ref.current!.offsetHeight}
-            })
-        )
-        animateFruits()
-    }, [animateFruits, arrivingFruitRef, getCurrentItem, props.currentIdx, props.items])
+        if (!firstRun) {
+            setBackgroundColor(props.items[props.currentIdx].color)
+            setCubes(
+                Array(CUBE_COUNT)
+                    .fill(1)
+                    .map(() => {
+                        return {x: Math.random() * width, y: Math.random() * height}
+                    })
+            )
+            setNewFruitSrc(props.items[props.currentIdx].fruitSrc)
+            setIsNewFruitVisible(true)
+            animateFruits()
+        }
+    }, [animateFruits, arrivingFruitRef, firstRun, height, props.currentIdx, props.items, width])
 
-    return <Box ref={ref}
+    useTimeout(() => {
+        setFirstRun(false)
+    }, 100)
+
+    return <Box
+                ref={squareRef}
                 width={1000}
                 sx={{
                     position: "relative",
@@ -121,10 +130,10 @@ export const MoguCarousele: FC<MoguCarouseleProps> = (props) => {
                 )
         }
         {
-            <BottleFruit fruitImageUrl={getCurrentItem().fruitSrc} visible={true} pos={arrivingFruit.pos} />
+            <BottleFruit fruitImageUrl={newFruitSrc} visible={isNewFruitVisible} pos={arrivingFruit.pos} />
         }
         {
-            <BottleFruit fruitImageUrl={getNextItem().fruitSrc} visible={true} pos={leavingFruit.pos} />
+            <BottleFruit fruitImageUrl={leavingBottleSrc} visible={isLeavingBottleVisible} pos={leavingFruit.pos} />
         }
         <Carousel
             index={props.currentIdx}

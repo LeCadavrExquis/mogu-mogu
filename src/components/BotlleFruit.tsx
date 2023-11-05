@@ -1,13 +1,6 @@
 import {animated, SpringValue, to, useSpring} from "@react-spring/web";
 import {FC, useEffect} from "react";
 
-const nataCubesResourceUrl = (idx: number) => `/img/nata-cube-${idx}.webp`
-
-type Position = {
-    x: number,
-    y: number
-}
-
 interface BottleFruitProp {
     fruitImageUrl: string
     visible: boolean
@@ -22,7 +15,7 @@ const BottleFruit: FC<BottleFruitProp> = (props) => {
             transform: to([props.pos], ([x, y]) => `translate3d(${x}px,${y}px,0)`),
             backgroundImage: `url(${props.fruitImageUrl})`,
             backgroundRepeat: "no-repeat",
-            height: "200px", width: "200px",
+            height: "300px", width: "300px",
             position: "absolute",
         }}
     />;

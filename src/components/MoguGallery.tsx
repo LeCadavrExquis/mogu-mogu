@@ -42,7 +42,7 @@ const MoguGalleryTile: FC<MoguGalleryTileProps> = (props) => {
     return <Box
         sx={{
             width: "360px",
-            background: `radial-gradient(closest-side,${props.image.color},#FFFFFFFF)`
+            background: `radial-gradient(closest-side,${props.image.color},#FFFFFF00)`
         }}
     >
         <img
