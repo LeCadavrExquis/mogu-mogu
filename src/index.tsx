@@ -1,6 +1,5 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import './index.css';
 import App from './App';
 import '@fontsource/roboto/300.css';
 import {createTheme, ThemeProvider} from "@mui/material";
@@ -21,7 +20,7 @@ const theme = createTheme({
                 outlined: {
                     borderColor: "rgba(255,255,255,0)",
                     color: "black",
-                    fontSize: "1.3rem",
+                    fontSize: "13sp",
                     fontFamily: "'Amatic SC', sans-serif",
                 },
             },
@@ -36,8 +35,8 @@ const theme = createTheme({
         MuiCardHeader: {
             styleOverrides: {
                 title: {
-                    fontSize: "2.5rem",
-                    fontFamily: "'Amatic SC', cursive",
+                    fontSize: 32,
+                    fontFamily: "'Bubblegum Sans', cursive",
                     fontWeight: "bold",
                 }
             }

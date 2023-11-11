@@ -10,22 +10,26 @@ import {
     Typography
 } from "@mui/material";
 import React, {FC} from "react";
-import { MoguImageData } from "../App";
-import {BottleFruit} from "./BotlleFruit";
+import {MoguImageData} from "../resources/ResourceHelper";
+import { BottleFruit } from "./AnimatedElements";
+import {useScreen} from "usehooks-ts";
 
 interface MoguGalleryProps {
     imageData: MoguImageData[]
 }
 
 const MoguGallery: FC<MoguGalleryProps> = (props) => {
-    return <Box sx={{width: '90%'}}>
-        <ImageList cols={4} gap={2} sx={{w: 1}}>
+    const screen = useScreen()
+
+    const colCount = screen?.width! < 800 ? 1 : 4
+    return <Box sx={{w: 1, position: "relative"}}>
+        <ImageList rowHeight={400} cols={colCount} gap={8} sx={{paddingRight: 16, paddingLeft: 16, paddingBottom: 16}}>
         {
             props.imageData.map((image) => {
                 return <ImageListItem
-                    sx={{marginTop: 5}}
+                    key={image.imgSrc}
                 >
-                    <BottleFruit fruitImageUrl={image.fruitSrc} visible={true} pos={[150, 175]} />
+                    <BottleFruit fruitImageUrl={image.fruitSrc} visible={true} pos={[150, 175]}  key={image.fruitSrc}/>
                     <MoguGalleryTile image={image} />
                 </ImageListItem>;
             })

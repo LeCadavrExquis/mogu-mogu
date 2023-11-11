@@ -1,75 +1,38 @@
-import React, {FC, useLayoutEffect, useRef, useState} from 'react';
+import React, {FC, useCallback, useRef, useState} from 'react';
 import './App.css';
 import {Box, Button, Divider, Link, Stack, Typography} from "@mui/material";
 import {EmailRounded, FacebookOutlined, HomeWorkRounded, Instagram, PhoneInTalkRounded} from "@mui/icons-material";
-import {MoguCard} from "./components/MoguCard";
+import {ContactCard, FindUs, GottaChewCard, MoguCard, NataDeCocoCard} from "./components/MoguCards";
 import {MoguCarousele} from "./components/MoguCarousele";
 import {MoguMenuHeader} from "./components/MoguMenuHeader";
 import {useInterval} from "react-material-ui-carousel/dist/components/util";
 import {MoguGallery} from "./components/MoguGallery";
 import YouTube, {YouTubeProps} from "react-youtube";
-import {BottleFruit} from "./components/BotlleFruit";
-import {NataCube} from "./components/NataCube";
-import {useTimeout} from "usehooks-ts";
-
-export type MoguImageData = {
-    imgSrc: string
-    fruitSrc: string
-    color: string
-    title: string
-}
-
-export const imageData: Array<MoguImageData> = [
-    { imgSrc: "/img/bottle/Strawberry.png", color: "#ff6d6d", title: "Truskawka", fruitSrc: "/img/fruit/Strawberry_fruit.png" },
-    { imgSrc: "/img/bottle/Raseberry.png", color: "#be408b", title: "Malina", fruitSrc: "/img/fruit/Raseberry_fruit.png" },
-    { imgSrc: "/img/bottle/Lychee.png", color: "#ff738f", title: "Liczi", fruitSrc: "/img/fruit/Lychee_fruit.png" },
-    { imgSrc: "/img/bottle/PinkGuava.png", color: "#ff8197", title: "Różowa Guava", fruitSrc: "/img/fruit/PinkGuava_fruit.png" },
-    { imgSrc: "/img/bottle/CottonCandy.png", color: "#ffb8ff", title: "Wata cukrowa", fruitSrc: "/img/fruit/CottonCandy_fruit.png" },
-    { imgSrc: "/img/bottle/Orange.png", color: "#ff8c42", title: "Pomarańcza", fruitSrc: "/img/fruit/Orange_fruit.png" },
-    { imgSrc: "/img/bottle/Mango.png", color: "#ffab5b", title: "Mango", fruitSrc: "/img/fruit/Mango_fruit.png" },
-    // { imgSrc: "/img/bottle/Watermelon_new.png", color: "#ff5e5e", title: "Arbuz", fruitSrc: "/img/fruit/Watermelon_fruit.png" },
-    { imgSrc: "/img/bottle/PassionFruit.png", color: "#ffaf2b", title: "Marakuja", fruitSrc: "/img/fruit/PassionFruit_fruit.png" },
-    { imgSrc: "/img/bottle/Pineapple.png", color: "#ffc740", title: "Ananas", fruitSrc: "/img/fruit/Pineapple_fruit.png" },
-    { imgSrc: "/img/bottle/Peach.png", color: "#ffc492", title: "Brzoskwinia", fruitSrc: "/img/fruit/Peach_fruit.png" },
-    { imgSrc: "/img/bottle/Melon.png", color: "#e8ff87", title: "Melon", fruitSrc: "/img/fruit/Melon_fruit.png" },
-    { imgSrc: "/img/bottle/PinaColada.png", color: "#fff5b1", title: "Pina Colada", fruitSrc: "/img/fruit/PinaColada_fruit.png" },
-    { imgSrc: "/img/bottle/BubbleGum.png", color: "#48a6ec", title: "Jogurt", fruitSrc: "/img/fruit/BubbleGum_fruit.png" },
-    { imgSrc: "/img/bottle/Grape.png", color: "#590cf5", title: "Winogrono", fruitSrc: "/img/fruit/Grape_fruit.png" },
-    { imgSrc: "/img/bottle/Yogurt.png", color: "#f2d9ff", title: "Jogurt", fruitSrc: "/img/fruit/Yogurt_fruit.png" },
-    { imgSrc: "/img/bottle/Coconut.png", color: "#f2f2f2", title: "Kokos", fruitSrc: "/img/fruit/Coconut_fruit.png" },
-]
+import {useScreen, useTimeout} from "usehooks-ts";
+import {NataCube, Position} from "./components/AnimatedElements";
+import {imageData, moguMansSrc} from "./resources/ResourceHelper";
 
 
 function App() {
     const [currentBottleIdx, setCurrentBottleIdx] = useState(0)
     const ref = useRef<HTMLDivElement>(null)
+    const screen = useScreen()
 
-    const CUBE_COUNT = 150
-    const [cubes, setCubes] = useState(
-        Array(CUBE_COUNT)
-            .fill(1)
-            .map(() => {
-                return {x: Math.random() * (window.screen.width - 150), y: Math.random() * (window.screen.height - 150)}
-            })
-    )
-
-    useInterval(() => {
-        if (currentBottleIdx + 1 !== imageData.length && imageData[currentBottleIdx + 1].title === "Arbuz") {
-            setCurrentBottleIdx((currentBottleIdx + 2) % imageData.length)
-        } else {
-            setCurrentBottleIdx((currentBottleIdx + 1) % imageData.length)
-        }
-    }, 5000)
-
-    useTimeout(() => {
+    const CUBE_COUNT_TOTAL = 200
+    const [cubes, setCubes] = useState([] as Position[])
+    const shakeCubes = useCallback((cubesCount: number) => {
         setCubes(
-            Array(CUBE_COUNT)
+            Array(cubesCount)
                 .fill(1)
                 .map(() => {
                     return {x: Math.random() * (ref.current?.offsetWidth! - 100), y: Math.random() * (ref.current?.offsetHeight! - 100)}
                 })
         )
-    }, 500)
+    }, [ref, setCubes])
+
+    useInterval(() => setCurrentBottleIdx((currentBottleIdx + 1) % imageData.length), 5000)
+    useInterval(() => shakeCubes(CUBE_COUNT_TOTAL), 20000)
+    useTimeout(() => shakeCubes(CUBE_COUNT_TOTAL), 250)
 
     return (
     <div className="App" ref={ref}>
@@ -81,23 +44,15 @@ function App() {
                         key={idx}
                         index={idx}
                         pos={pos}
-                        crawlingSpeed={20000}
-                        onClick={() => {
-                            setCubes(
-                                Array(CUBE_COUNT)
-                                    .fill(1)
-                                    .map(() => {
-                                        return {x: Math.random() * (ref.current?.offsetWidth!), y: Math.random() * (ref.current?.offsetHeight!)}
-                                    })
-                            )
-                        }}
+                        crawlingDuration={20000}
+                        delayAppearance={true}
+                        onClick={() => shakeCubes(CUBE_COUNT_TOTAL)}
                     />
                 )
         }
         <Stack
             alignItems={"center"}
             spacing={2}
-            sx={{width: 1}}
         >
             <MoguMenuHeader
                 onContactClicked={() => document.querySelector(".contact")?.scrollIntoView() }
@@ -106,175 +61,67 @@ function App() {
                 onNataClicked={() => document.querySelector(".nata")?.scrollIntoView() }
             />
             <Stack
-                direction={"row"}
+                direction={screen?.width! > 1000 ? "row" : "column"}
                 sx={{
                     width: 1,
                     background: `linear-gradient(#bcf4ff, white)`,
                     paddingTop: 8,
                 }}
-                justifyContent={"space-around"}>
+                justifyContent={"space-evenly"}
+            >
                 <MoguCarousele currentIdx={currentBottleIdx} items={imageData} />
-                <MoguCard
-                    title={"WGRYŹ SIĘ W SOK!"}
-                    sx={{width: 600}}
-                >
-                    <Typography paragraph={true}>
-                        Spróbuj orzeźwiających żelków kokosowych pływających w twoim ulubionym soku.
-                        W 2001 roku tajlandzka firma Sappe zaskoczyła konsumentów prezentując napój z galaretką z kokosa, czyli <strong>nata de coco</strong>.
-                        Tajlandzcy konsumenci natychmiast pokochali jego wyjątkowy smak, co skłoniło producenta do ekspansji na rynki światowe.
-                        Mogu Mogu znajdziesz w <strong>całej Polsce</strong>!
-                    </Typography>
-                </MoguCard>
+                <GottaChewCard/>
+                <img
+                    style={{position: "absolute", width: "200", top: screen?.width! < 800 ? 64 : 200, left: screen?.width! < 800 ? 2 : 64, zIndex: 0}}
+                    src={moguMansSrc[3]}
+                    alt={"Ludzik mogu pijący soczek"}
+                    loading="lazy"
+                />
             </Stack>
             <Typography
-                variant={"h1"}
+                variant={screen?.width! > 600 ? "h1" : "h3"}
                 sx={{m:3, zIndex: 2}}
                 className={"flavors"}
             >
                 Odkryj wszystkie smaki!
             </Typography>
             <MoguGallery imageData={imageData} />
+            <Stack sx={{position: "relative", width: "100%"}} alignItems={"center"}>
+                <NataDeCocoCard />
+                <Divider sx={{height: 64}} />
+                <img
+                    style={{
+                        position: screen?.width! < 800 ? "relative" : "absolute",
+                        width: 400,
+                        top: 0,
+                        right: 0,
+                        zIndex: 4
+                    }}
+                    loading="lazy"
+                    src={moguMansSrc[5]}
+                    alt={"Ludzik Mogu kontakt"}
+                />
+                <FindUs />
+            </Stack>
             <Divider sx={{height: 64}} />
-            <NataDeCocoCard />
-            <Divider sx={{height: 64}} />
-            <FindUs />
-            <Divider sx={{height: 64}} />
-            <ContactCard />
-            <Divider className={"end"} sx={{height: 64}} />
+            <Stack sx={{position: "relative", width: "100%"}} alignItems={"center"}>
+                <ContactCard />
+                <img
+                    style={{
+                        position: screen?.width! < 800 ? "relative" : "absolute",
+                        width: 400,
+                        bottom: 0,
+                        left: 0,
+                        zIndex: 4
+                    }}
+                    loading="lazy"
+                    src={moguMansSrc[4]}
+                    alt={"Ludzik mogu obserwator"}
+                />
+            </Stack>
         </Stack>
     </div>
   );
-}
-
-const NataDeCocoCard: FC = () => {
-    return <MoguCard
-        title={"O NATA DE COCO"}
-        className={"nata"}
-    >
-        <Stack direction={"column"} justifyItems={"end"} width={1000}>
-            <Typography paragraph={true}>
-                Nata de Coco, czyli galaretka kokosowa, to najbardziej tajemniczy składnik Mogu Mogu, który nadaje mu wyjątkowego charakteru.
-                To produkt naturalny, który powstaje w procesie fermentacji wody kokosowej.
-                Woda kokosowa, znana jako sok z kokosa, jest bogata w mikroelementy i witaminy, co czyni ją zdrowym i odżywczym składnikiem.
-                Woda kokosowa jest również niskokaloryczna i pomaga w utrzymaniu dobrego zdrowia.
-            </Typography>
-            <Stack>
-                <Button>CZYTAJ WIĘCEJ</Button>
-            </Stack>
-        </Stack>
-    </MoguCard>;
-}
-
-const ContactCard: FC = () => {
-    return <MoguCard
-        className={"contact"}
-        title={"KONTAKT"}
-        subtitle={"POL AMAL Oficialny dystrybutor Mogu Mogu na Polskę"}
-    >
-        <Stack direction={"column"} alignItems={"center"}>
-            <Stack direction={"row"} sx={{width: 1000, marginBottom: 4}} justifyContent={"space-around"}>
-                <Stack direction={"column"}>
-                    <Typography variant={"h5"}>
-                        Jean-Michel Żarnowiec
-                    </Typography>
-                    <Divider sx={{marginBottom: 2}}/>
-                    <Stack direction={"row"}>
-                        <PhoneInTalkRounded sx={{marginRight: 2}}/>
-                        <Typography paragraph={true}>
-                            +48 501 086 898
-                        </Typography>
-                    </Stack>
-                    <Stack direction={"row"}>
-                        <EmailRounded sx={{marginRight: 2}}/>
-                        <Typography paragraph={true}>
-                            jmz@mogu-mogu.pl
-                        </Typography>
-                    </Stack>
-                </Stack>
-                <Stack direction={"column"}>
-                    <Typography variant={"h5"}>
-                        Marek Szypszak
-                    </Typography>
-                    <Divider sx={{marginBottom: 2}}/>
-                    <Stack direction={"row"}>
-                        <PhoneInTalkRounded sx={{marginRight: 2}}/>
-                        <Typography paragraph={true}>
-                            +48 692 718 500
-                        </Typography>
-                    </Stack>
-                    <Stack direction={"row"}>
-                        <EmailRounded sx={{marginRight: 2}}/>
-                        <Typography paragraph={true}>
-                            marek@mogu-mogu.pl
-                        </Typography>
-                    </Stack>
-                </Stack>
-            </Stack>
-            <Stack direction={"row"}>
-                <EmailRounded sx={{marginRight: 2}}/>
-                <Typography paragraph={true}>
-                    biuro@mogu-mogu.pl
-                </Typography>
-            </Stack>
-            <Stack direction={"row"} sx={{w: 1}}>
-                <HomeWorkRounded sx={{marginRight: 2}}/>
-                <Typography paragraph={true} sx={{textAlign:"start"}}>
-                    ul. Letniskowa 12C <br/>05-807 Podkowa Leśna
-                </Typography>
-            </Stack>
-        </Stack>
-    </MoguCard>
-}
-
-const FindUs: FC = () => {
-    const ytOpts: YouTubeProps['opts'] = {
-        height: '360',
-        width: '640',
-        playerVars: {
-            // https://developers.google.com/youtube/player_parameters
-            autoplay: 1,
-            muted: true,
-            start: 33,
-            playlist: "FcJzUyFmJPM,nUefdXHpDgc,cpkfPJFwMQo,KMzz0_YeVq4"
-        },
-    }
-
-    return <MoguCard
-        className={"findUs"}
-        title={"ZNAJDŹ NAS!"}
-    >
-        <Stack direction={"row"} justifyItems={"end"} width={1200}>
-            <YouTube
-                videoId={"FcJzUyFmJPM"}
-                opts={ytOpts}
-            />
-            <Box sx={{paddingLeft: 4}}>
-                <Stack direction={"column"}>
-                    <Typography paragraph={true}>
-                        Polscy konsumenci mogą przekonać się o wyjątkowości Mogu Mogu, dzięki firmie Pol Amal, oficjalnemu importerowi i dystrybutorowi Mogu Mogu.
-                        Napój znajdziesz w sieciach sklepów Aldi, Auchan, Kuchnie Świata. Dostępy również w hurtowniach warszawMakro.
-                    </Typography>
-                    <Typography paragraph={true}>
-                        Znasz już piosenkę o Mogu Mogu? Żeby zobaczyć więcej i być na bieżąco z nowościami śledź nas na mediach społecznościowych.
-                    </Typography>
-                    <Stack direction={"row"} sx={{width: 1, marginTop: 4}} justifyContent={"space-evenly"}>
-                        <Stack direction={"row"}>
-                            <FacebookOutlined sx={{fontSize: 64}}/>
-                            <Link href="https://www.facebook.com/MoguMoguPL" variant="body1" sx={{margin: "auto"}}>
-                                Mogu Mogu Polska
-                            </Link>
-                        </Stack>
-                        <Stack direction={"row"}>
-                            <Instagram sx={{fontSize: 64}}/>
-                            <Link href="https://www.instagram.com/mogumogupl" variant="body1" sx={{margin: "auto"}}>
-                                @mogumogupl
-                            </Link>
-                        </Stack>
-                    </Stack>
-                </Stack>
-            </Box>
-        </Stack>
-    </MoguCard>
 }
 
 export default App;
