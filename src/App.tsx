@@ -50,6 +50,18 @@ function App() {
                     />
                 )
         }
+                        <img
+                            style={{
+                                position: "absolute",
+                                width: 400,
+                                bottom: 80,
+                                left: 1400,
+                                zIndex: 4
+                            }}
+                            loading="lazy"
+                            src={moguMansSrc[2]}
+                            alt={"Ludzik mogu obserwator"}
+                        />
         <Stack
             alignItems={"center"}
             spacing={2}

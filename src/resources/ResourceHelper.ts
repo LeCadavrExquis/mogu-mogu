@@ -105,25 +105,25 @@ export type MoguImageData = {
 }
 
 export const imageData: Array<MoguImageData> = [
-    { imgSrc: StrawberryBottle, color: "#ff6d6d", title: "Truskawka", fruitSrc: Strawberry },
-    { imgSrc: RaspberryBottle, color: "#be408b", title: "Malina", fruitSrc: Raspberry },
     { imgSrc: LycheeBottle, color: "#ff738f", title: "Liczi", fruitSrc: Lychee },
     { imgSrc: PinkGuavaBottle, color: "#ff8197", title: "Różowa Guava", fruitSrc: PinkGuava },
     //{ imgSrc: WatermelonBottle, color: "#ff5e5e", title: "Arbuz", fruitSrc: Watermelon },
     { imgSrc: OrangeBottle, color: "#ff8c42", title: "Pomarańcza", fruitSrc: Orange },
     { imgSrc: PeachBottle, color: "#ffc492", title: "Brzoskwinia", fruitSrc: Peach },
     { imgSrc: PassionfruitBottle, color: "#ffaf2b", title: "Marakuja", fruitSrc: Passionfruit },
+    { imgSrc: MangoBottle, color: "#ffd600", title: "Mango", fruitSrc: Mango },
+    { imgSrc: PineappleBottle, color: "#ffffa1", title: "Ananas", fruitSrc: Pineapple },
     { imgSrc: AppleBottle, color: "#d0b697", title: "Jabłko", fruitSrc: Apple },
-    { imgSrc: MangoBottle, color: "#ffab5b", title: "Mango", fruitSrc: Mango },
-    { imgSrc: PineappleBottle, color: "#ffc740", title: "Ananas", fruitSrc: Pineapple },
-    { imgSrc: MelonBottle, color: "#e8ff87", title: "Melon", fruitSrc: Melon },
+    { imgSrc: CoconutBottle, color: "#eaedef", title: "Kokos", fruitSrc: Coconut },
+    { imgSrc: MelonBottle, color: "#dfffa1", title: "Melon", fruitSrc: Melon },
     { imgSrc: BubblegumBottle, color: "#48a6ec", title: "Guma balonowa", fruitSrc: Bubblegum },
-    { imgSrc: BlackcurrantBottle, color: "#6c48ec", title: "Czarna pożeczka", fruitSrc: Blackcurrant },
+    { imgSrc: BlackcurrantBottle, color: "#84a3e6", title: "Czarna pożeczka", fruitSrc: Blackcurrant },
     { imgSrc: CottonCandyBottle, color: "rgba(180,111,250,0.8)", title: "Wata cukrowa", fruitSrc: CottonCandy },
-    { imgSrc: GrapeBottle, color: "rgba(130,29,253,0.5)", title: "Winogrono", fruitSrc: Grape },
+    { imgSrc: GrapeBottle, color: "rgb(134, 21, 100)", title: "Winogrono", fruitSrc: Grape },
     //{ imgSrc: PinacoladaBottle, color: "#fff5b1", title: "Pina Colada", fruitSrc: Pinacolada },
     //{ imgSrc: YogurtBottle, color: "#f2d9ff", title: "Jogurt", fruitSrc: Yogurt },
-    { imgSrc: CoconutBottle, color: "#f2f2f2", title: "Kokos", fruitSrc: Coconut },
+    { imgSrc: RaspberryBottle, color: "#be408b", title: "Malina", fruitSrc: Raspberry },
+    { imgSrc: StrawberryBottle, color: "#ff6d6d", title: "Truskawka", fruitSrc: Strawberry },
 ];
 
 export const moguMansSrc = [MoguMan1, MoguMan2, MoguMan3, MoguMan4, MoguMan5, MoguMan6];
