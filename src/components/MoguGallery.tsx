@@ -29,7 +29,7 @@ const MoguGallery: FC<MoguGalleryProps> = (props) => {
                 return <ImageListItem
                     key={image.imgSrc}
                 >
-                    <BottleFruit fruitImageUrl={image.fruitSrc} visible={true} pos={[150, 175]}  key={image.fruitSrc}/>
+                    <BottleFruit fruitImageUrl={image.fruitSrc} visible={true} pos={[150, 175]}  key={image.fruitSrc} size={"sm"}/>
                     <MoguGalleryTile image={image} />
                 </ImageListItem>;
             })
