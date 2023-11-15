@@ -49,6 +49,11 @@ const NataCube: FC<NataCubeProp> = (props) => {
         setVisible(true)
     }, props.delayAppearance ? Math.random() * 10000 : null)
 
+    useEffect(() => {
+        nataRef.update({pos: [props.pos.x, props.pos.y]})
+        nataRef.start()
+    }, [nataRef, props.pos.x, props.pos.y]);
+
     return <animated.img
         key={props.index}
         src={nataCubesSrc[(props.index % 4)]}

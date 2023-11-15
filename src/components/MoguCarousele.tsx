@@ -109,7 +109,6 @@ export const MoguCarousele: FC<MoguCarouseleProps> = (props) => {
                 .filter(pos => pos.x > 0)
                 .map((pos, idx) =>
                     <NataCube
-                        key={idx}
                         index={idx}
                         pos={pos}
                     />

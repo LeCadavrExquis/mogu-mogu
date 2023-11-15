@@ -21,17 +21,24 @@ function App() {
     const CUBE_COUNT_TOTAL = 200
     const [cubes, setCubes] = useState([] as Position[])
     const shakeCubes = useCallback((cubesCount: number) => {
-        setCubes(
+        const newCubes = cubes.length === cubesCount ?
+            cubes
+                .map(({x, y}) => {
+                    return {
+                        x: x + (2 * Math.random() - 1) * (ref.current?.offsetWidth! - 100) / 100,
+                        y: y + (2 * Math.random() - 1) * (ref.current?.offsetHeight! - 100) / 100
+                    }
+                }) :
             Array(cubesCount)
                 .fill(1)
                 .map(() => {
                     return {x: Math.random() * (ref.current?.offsetWidth! - 100), y: Math.random() * (ref.current?.offsetHeight! - 100)}
                 })
-        )
-    }, [ref, setCubes])
+        setCubes(newCubes)
+    }, [cubes, ref])
 
     useInterval(() => setCurrentBottleIdx((currentBottleIdx + 1) % imageData.length), 5000)
-    useInterval(() => shakeCubes(CUBE_COUNT_TOTAL), 20000)
+    useInterval(() => shakeCubes(CUBE_COUNT_TOTAL), 10000)
     useTimeout(() => shakeCubes(CUBE_COUNT_TOTAL), 250)
 
     return (
@@ -41,27 +48,27 @@ function App() {
                 .filter(pos => pos.x > 0)
                 .map((pos, idx) =>
                     <NataCube
-                        key={idx}
                         index={idx}
                         pos={pos}
-                        crawlingDuration={20000}
+                        crawlingDuration={10000}
                         delayAppearance={true}
                         onClick={() => shakeCubes(CUBE_COUNT_TOTAL)}
                     />
                 )
         }
-                        <img
-                            style={{
-                                position: "absolute",
-                                width: 400,
-                                bottom: 80,
-                                left: 1400,
-                                zIndex: 4
-                            }}
-                            loading="lazy"
-                            src={moguMansSrc[2]}
-                            alt={"Ludzik mogu obserwator"}
-                        />
+        <img
+            style={{
+                display: screen?.width! > 800 ? "block" : "none",
+                position: "absolute",
+                width: 400,
+                bottom: 64,
+                right: 64,
+                zIndex: 4
+            }}
+            loading="lazy"
+            src={moguMansSrc[2]}
+            alt={"Ludzik mogu obserwator"}
+        />
         <Stack
             alignItems={"center"}
             spacing={2}
