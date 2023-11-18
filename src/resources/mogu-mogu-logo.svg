@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 20010904//EN"
-              "http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd">
+        "http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd">
 
 <svg xmlns="http://www.w3.org/2000/svg"
      width="300" height="48"
      viewBox="0 0 3000 473">
-  <path id="Zaznaczenie"
-        fill="black" stroke="black" stroke-width="16"
-        d="M 0.00,342.00
+    <path id="mogu"
+          fill="black" stroke="black" stroke-width="16"
+          d="M 0.00,342.00
            C 14.25,338.61 16.59,324.73 17.83,312.00
              18.32,306.98 17.94,303.21 19.35,298.00
              20.70,293.02 23.57,290.77 25.52,286.00
@@ -782,5 +782,5 @@
              2207.76,227.28 2196.92,214.06 2192.00,210.70
              2192.00,210.70 2179.00,204.68 2179.00,204.68
              2169.22,199.46 2169.21,197.06 2157.00,197.16
-             2157.00,197.16 2129.00,197.16 2129.00,197.16 Z" />
+             2157.00,197.16 2129.00,197.16 2129.00,197.16 Z"/>
 </svg>

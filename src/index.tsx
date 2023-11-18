@@ -5,7 +5,7 @@ import '@fontsource/roboto/300.css';
 import {createTheme, ThemeProvider} from "@mui/material";
 
 const root = ReactDOM.createRoot(
-  document.getElementById('root') as HTMLElement
+    document.getElementById('root') as HTMLElement
 );
 const theme = createTheme({
     typography: {
@@ -44,9 +44,9 @@ const theme = createTheme({
     },
 });
 root.render(
-  <React.StrictMode>
-      <ThemeProvider theme={theme}>
-          <App />
-      </ThemeProvider>
-  </React.StrictMode>
+    <React.StrictMode>
+        <ThemeProvider theme={theme}>
+            <App/>
+        </ThemeProvider>
+    </React.StrictMode>
 );

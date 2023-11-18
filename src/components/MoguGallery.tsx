@@ -1,17 +1,7 @@
-import {
-    Box,
-    Card,
-    CardContent,
-    CardHeader,
-    CardProps, Divider,
-    ImageList,
-    ImageListItem,
-    Stack,
-    Typography
-} from "@mui/material";
+import {Box, ImageList, ImageListItem, Typography} from "@mui/material";
 import React, {FC} from "react";
 import {MoguImageData} from "../resources/ResourceHelper";
-import { BottleFruit } from "./AnimatedElements";
+import {Fruit} from "./AnimatedElements";
 import {useScreen} from "usehooks-ts";
 
 interface MoguGalleryProps {
@@ -24,16 +14,17 @@ const MoguGallery: FC<MoguGalleryProps> = (props) => {
     const colCount = screen?.width! < 800 ? 1 : 4
     return <Box sx={{w: 1, position: "relative"}}>
         <ImageList rowHeight={400} cols={colCount} gap={8} sx={{paddingRight: 16, paddingLeft: 16, paddingBottom: 16}}>
-        {
-            props.imageData.map((image) => {
-                return <ImageListItem
-                    key={image.imgSrc}
-                >
-                    <BottleFruit fruitImageUrl={image.fruitSrc} visible={true} pos={[150, 175]}  key={image.fruitSrc} size={"sm"}/>
-                    <MoguGalleryTile image={image} />
-                </ImageListItem>;
-            })
-        }
+            {
+                props.imageData.map((image) => {
+                    return <ImageListItem
+                        key={image.imgSrc}
+                    >
+                        <Fruit fruitImageUrl={image.fruitSrc} visible={true} pos={[150, 175]} key={image.fruitSrc}
+                               size={"sm"}/>
+                        <MoguGalleryTile image={image}/>
+                    </ImageListItem>;
+                })
+            }
         </ImageList>
     </Box>;
 }

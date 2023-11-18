@@ -1,22 +1,22 @@
 .App {
-  text-align: center;
+    text-align: center;
 }
 
 .html, body, #root, .App {
-  left: 0;
-  top: 0;
-  width: 100%;
-  height: 100%;
-  overflow-x: hidden;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow-x: hidden;
 }
 
 html {
-  scroll-behavior: smooth;
+    scroll-behavior: smooth;
 }
 
 @font-face {
-  font-family: 'Bubblegum Sans';
-  src: url('resources/font/AkayaKanadaka-Regular.ttf') format('truetype');
-  font-weight: normal;
-  font-style: normal;
+    font-family: 'Bubblegum Sans';
+    src: url('resources/font/AkayaKanadaka-Regular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
 }

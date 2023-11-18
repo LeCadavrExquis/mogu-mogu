@@ -1,6 +1,6 @@
 import React, {FC} from "react";
 import {Button, Divider, IconButton, Menu, MenuItem, Stack} from "@mui/material";
-import {useScreen, useWindowSize} from "usehooks-ts";
+import {useScreen} from "usehooks-ts";
 import {MenuOpen} from "@mui/icons-material";
 import {MoguLogoSvg, moguMansSrc} from "../resources/ResourceHelper";
 
@@ -30,7 +30,7 @@ const MoguMenuHeader: FC<MoguMenuHeaderProps> = (props) => {
             aria-expanded={open ? 'true' : undefined}
             onClick={handleClick}
         >
-            <MenuOpen sx={{fontSize: 64}} />
+            <MenuOpen sx={{fontSize: 64}}/>
         </IconButton>
         <Menu
             id="basic-menu"
@@ -42,8 +42,10 @@ const MoguMenuHeader: FC<MoguMenuHeaderProps> = (props) => {
             }}
         >
             <MenuItem onClick={handleClose}><Button variant="outlined" onClick={props.onFlavoursClicked}>SMAKI</Button></MenuItem>
-            <MenuItem onClick={handleClose}><Button variant="outlined" onClick={props.onNataClicked}>NATA DE COCO</Button></MenuItem>
-            <MenuItem onClick={handleClose}><Button variant="outlined" onClick={props.onFindUsClicked}>ZNAJDŹ NAS</Button></MenuItem>
+            <MenuItem onClick={handleClose}><Button variant="outlined" onClick={props.onNataClicked}>NATA DE
+                COCO</Button></MenuItem>
+            <MenuItem onClick={handleClose}><Button variant="outlined" onClick={props.onFindUsClicked}>ZNAJDŹ
+                NAS</Button></MenuItem>
             <MenuItem onClick={handleClose}><Button variant="outlined" onClick={props.onContactClicked}>KONTAKT</Button></MenuItem>
         </Menu>
     </> : <Stack direction={"row"} sx={{marginRight: 8}}>
@@ -61,8 +63,8 @@ const MoguMenuHeader: FC<MoguMenuHeaderProps> = (props) => {
                       backgroundColor: 'white',
                       width: "100%",
                       paddingTop: "8px",
-                }}>
-        <MoguLogoSvg style={{padding: 2, marginLeft: 8}}/>
+                  }}>
+        <MoguLogoSvg style={{padding: 2, marginLeft: 8}} alt={"mogu logo"}/>
         {
             (screen?.width! > 800) && <img
                 style={{position: "absolute", width: "300", top: 48, left: screen?.width! / 2 - 100, zIndex: 1}}

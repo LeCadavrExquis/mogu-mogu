@@ -1,11 +1,34 @@
-import {animated, SpringValue, to, useSpring, useTransition} from "@react-spring/web";
-import {FC, useEffect, useState} from "react";
+import {animated, SpringValue, to, useSpring} from "@react-spring/web";
+import {FC, useCallback, useEffect, useState} from "react";
 import {useScreen, useTimeout} from "usehooks-ts";
 import {nataCubesSrc} from "../resources/ResourceHelper";
 
 export type Position = {
     x: number,
     y: number
+}
+
+function useCubes() {
+    const [cubes, setCubes] = useState([] as Position[])
+
+    const shakeCubes = useCallback((width: number, height: number, cubesCount?: number) => {
+        const newCubes = !cubes || cubes.length === cubesCount ?
+            cubes
+                .map(({x, y}) => {
+                    return {
+                        x: x + (2 * Math.random() - 1) * (width - 100) / 100,
+                        y: y + (2 * Math.random() - 1) * (height - 100) / 100
+                    }
+                }) :
+            Array(cubesCount)
+                .fill(1)
+                .map(() => {
+                    return {x: Math.random() * (width - 100), y: Math.random() * (height - 100)}
+                })
+        setCubes(newCubes)
+    }, [cubes])
+
+    return {cubes, shakeCubes}
 }
 
 interface NataCubeProp {
@@ -43,7 +66,7 @@ const NataCube: FC<NataCubeProp> = (props) => {
             })
             nataRef.start()
         }
-    }, 250)
+    }, 1000)
 
     useTimeout(() => {
         setVisible(true)
@@ -69,7 +92,7 @@ const NataCube: FC<NataCubeProp> = (props) => {
     />;
 }
 
-interface BottleFruitProp {
+interface FruitProp {
     name?: string
     fruitImageUrl: string
     visible: boolean
@@ -77,7 +100,7 @@ interface BottleFruitProp {
     size?: string
 }
 
-const BottleFruit: FC<BottleFruitProp> = (props) => {
+const Fruit: FC<FruitProp> = (props) => {
     const screen = useScreen()
     const scale = screen?.width! < 800 || props.size === "sm" ? 0.7 : 1
     return <animated.img
@@ -95,4 +118,4 @@ const BottleFruit: FC<BottleFruitProp> = (props) => {
 }
 
 
-export {NataCube, BottleFruit}
+export {NataCube, Fruit, useCubes}

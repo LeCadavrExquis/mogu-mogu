@@ -1,20 +1,20 @@
-import React, {FC, useCallback, useEffect, useRef, useState} from "react";
+import React, {FC, useCallback, useEffect, useState} from "react";
 import {Box, Paper} from "@mui/material";
 import {useSpring} from "@react-spring/web";
 import {imageData, MoguImageData} from "../resources/ResourceHelper";
 import Carousel from "react-material-ui-carousel";
 import {useEffectOnce, useElementSize, useTimeout} from "usehooks-ts";
-import {BottleFruit, NataCube} from "./AnimatedElements";
+import {Fruit, NataCube} from "./AnimatedElements";
 
 interface MoguCarouseleProps {
     items: MoguImageData[]
     currentIdx: number
 }
+
 export const MoguCarousele: FC<MoguCarouseleProps> = (props) => {
-    const [squareRef, { width, height }] = useElementSize()
+    const [squareRef, {width, height}] = useElementSize()
 
     const [backgroundColor, setBackgroundColor] = useState(imageData[0].color)
-
     const CUBE_COUNT = 20
     const [cubes, setCubes] = useState(
         Array(CUBE_COUNT)
@@ -52,6 +52,7 @@ export const MoguCarousele: FC<MoguCarouseleProps> = (props) => {
         const landPos = [(width / 2) + (shortJump ? 5 : 75), (height / 2) + (shortJump ? 50 : 100)]
         arrivingFruitRef.update({pos: landPos})
         arrivingFruitRef.start()
+        setIsLeavingBottleVisible(false)
         leavingFruitRef.update({pos: [Math.random() * width, height + 500], config: {duration: 4000}})
         leavingFruitRef.start()
         await new Promise(r => setTimeout(r, 500))
@@ -71,8 +72,8 @@ export const MoguCarousele: FC<MoguCarouseleProps> = (props) => {
             Array(CUBE_COUNT)
                 .fill(1)
                 .map(() => {
-                return {x: Math.random() * (width - 100), y: Math.random() *(height - 100)}
-            })
+                    return {x: Math.random() * (width - 100), y: Math.random() * (height - 100)}
+                })
         )
     })
 
@@ -97,13 +98,13 @@ export const MoguCarousele: FC<MoguCarouseleProps> = (props) => {
     }, 100)
 
     return <Box
-                ref={squareRef}
-                sx={{
-                    width: 1,
-                    position: "relative",
-                    background: `radial-gradient(closest-side,${backgroundColor},#FFFFFF00)`,
-                    animation: "fadein",
-                }}>
+        ref={squareRef}
+        sx={{
+            width: 1,
+            position: "relative",
+            background: `radial-gradient(closest-side,${backgroundColor},#FFFFFF00)`,
+            animation: "fadein",
+        }}>
         {
             cubes
                 .filter(pos => pos.x > 0)
@@ -115,7 +116,7 @@ export const MoguCarousele: FC<MoguCarouseleProps> = (props) => {
                 )
         }
         {
-            <BottleFruit
+            <Fruit
                 name={"arrivingFruit"}
                 fruitImageUrl={newFruitSrc}
                 visible={isNewFruitVisible}
@@ -123,7 +124,7 @@ export const MoguCarousele: FC<MoguCarouseleProps> = (props) => {
             />
         }
         {
-            <BottleFruit
+            <Fruit
                 name={"leavingFruit"}
                 fruitImageUrl={leavingBottleSrc}
                 visible={isLeavingBottleVisible}
@@ -138,7 +139,7 @@ export const MoguCarousele: FC<MoguCarouseleProps> = (props) => {
             swipe={false}
         >
             {
-                imageData.map((item, i) => <CarouselItem key={i} item={item} /> )
+                imageData.map((item, i) => <CarouselItem key={i} item={item}/>)
             }
         </Carousel>
     </Box>
